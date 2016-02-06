@@ -1,0 +1,10 @@
+#ifndef TEST_RESULT_HPP
+#define TEST_RESULT_HPP
+
+enum
+{
+    PASSED,
+    FAILED
+} TEST_RESULT;
+
+#endif // TEST_RESULT_HPP
