@@ -2,7 +2,7 @@
 
 bool assertOn(int pinNumber)
 {
-#ifdef MBED
+#ifdef DELTA
     return (DigitalIn input(pinNameArray(pinNumber - 5)) == 1);
 #else
     // Not defined yet
@@ -12,7 +12,7 @@ bool assertOn(int pinNumber)
 
 bool assertOff(int pinNumber)
 {
-#ifdef MBED
+#ifdef DELTA
     return (DigitalIn input(pinNameArray(pinNumber - 5)) == 0);
 #else
     // Not defined yet
@@ -29,7 +29,7 @@ bool assertToggling(int pinNumber)
 
     do
     {
-    #ifdef MBED
+    #ifdef DELTA
         DigitalIn input(pinNameArray(pinNumber - 5));
         if (input)
         {
