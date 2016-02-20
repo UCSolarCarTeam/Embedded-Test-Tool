@@ -4,11 +4,18 @@
 #include "mbed.h"
 #include "Defines.hpp"
 
+static const int OUTPUT_LO = 0;
+static const int OUTPUT_HI = 1;
+static const int SAMPLE_TIMEOUT = 2;
+
+extern const PinName pinNameArray[NUMBER_OF_PINS];
+
+// Used for pin-number to array-index conversion
+extern const int PIN_OFFSET;
+
 bool assertOn(int pinNumber);
 bool assertOff(int pinNumber);
 bool assertToggling(int pinNumber);
-
-extern const PinName pinNameArray[NUMBER_OF_PINS];
 
 #ifdef DELTA
 #include "DeltaPinNames.hpp"
