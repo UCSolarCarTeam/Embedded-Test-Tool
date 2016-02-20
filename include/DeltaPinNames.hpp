@@ -1,6 +1,8 @@
 #ifndef DELTA_PIN_NAMES_HPP
 #define DELTA_PIN_NAMES_HPP
 
+#include "Defines.hpp"
+
 const int PIN_OFFSET = 5;
 
 const PinName& PIN_DISPLAY_MOSI = p5;
