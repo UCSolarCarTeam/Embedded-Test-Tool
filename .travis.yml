@@ -10,6 +10,7 @@ install:
     - cd ..
 
 before_script:
+    - echo $PWD
     - export PATH=$PATH:$PWD/gcc4mbed/gcc-arm-none-eabi/bin/
 
 script:
