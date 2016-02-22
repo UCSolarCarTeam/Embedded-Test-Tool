@@ -12,6 +12,7 @@ install:
 before_script:
     - echo $PWD
     - PATH=$PATH:$PWD/gcc4mbed/gcc-arm-none-eabi/bin/
+    - ls $PWD/gcc4mbed/gcc-arm-none-eabi/bin/
     - echo $PATH
 
 script:
