@@ -11,4 +11,4 @@ install:
 
 script:
     - ls gcc4mbed/gcc-arm-none-eabi/bin/
-    - make CPP=/home/travis/build/UCSolarCarTeam/Schulich-Delta-CCS-Test-Tool/gcc4mbed/gcc-arm-none-eabi/bin/arm-none-eabi-g++
+    - make CPP=gcc4mbed/gcc-arm-none-eabi/bin/arm-none-eabi-g++
