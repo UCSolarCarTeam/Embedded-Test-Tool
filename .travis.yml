@@ -10,10 +10,7 @@ install:
     - cd ..
 
 before_script:
-    - echo $PWD
-    - export PATH=$PWD/gcc4mbed/gcc-arm-none-eabi/bin/:$PATH
-    - ls $PWD/gcc4mbed/gcc-arm-none-eabi/bin/
-    - echo $PATH
+    - ls gcc4mbed/gcc-arm-none-eabi/bin/
 
 script:
     - make CPP=gcc4mbed/gcc-arm-none-eabi/bin/arm-none-eabi-g++
