@@ -16,4 +16,4 @@ before_script:
     - echo $PATH
 
 script:
-    - make
+    - make CC=gcc4mbed/gcc-arm-none-eabi/bin/gcc-arm-none-eabi-g++
