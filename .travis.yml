@@ -3,7 +3,7 @@ before_install:
 
 install: 
     - cd gcc4mbed 
-    - ./linux-install
+    - ./linux_install
     - ./BuildShell
     - cd ..
 
