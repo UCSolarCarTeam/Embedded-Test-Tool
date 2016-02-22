@@ -3,6 +3,7 @@ before_install:
 
 install: 
     - cd gcc4mbed 
+    - sed -i.bak -e '108,114d;134d' linux_install
     - ./linux_install
     - ./BuildShell
     - cd ..
