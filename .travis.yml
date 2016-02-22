@@ -1,16 +1,16 @@
 language: c++
 
 before_install:
-    - git clone https://github.com/adamgreen/gcc4mbed.git
+    - git clone https://github.com/adamgreen/gcc4mbed.git /tmp/gcc4mbed
 
 install: 
-    - cd gcc4mbed 
+    - cd /tmp/gcc4mbed 
     - sed -i.bak -e '108,114d;134d' linux_install
     - ./linux_install
     - cd ..
 
 before_script:
-    - export PATH=/home/travis/build/UCSolarCarTeam/Schulich-Delta-CCS-Test-Tool/gcc4mbed/gcc-arm-none-eabi/bin/:$PATH
+    - export PATH="/home/travis/build/UCSolarCarTeam/Schulich-Delta-CCS-Test-Tool/gcc4mbed/gcc-arm-none-eabi/bin/:$PATH"
 
 script:
     - make 
