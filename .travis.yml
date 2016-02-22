@@ -5,8 +5,10 @@ install:
     - cd gcc4mbed 
     - sed -i.bak -e '108,114d;134d' linux_install
     - ./linux_install
-    - ./BuildShell
     - cd ..
+
+before_script:
+	- export PATH=$PATH:$PWD/gcc4mbed/gcc-arm-none-eabi/bin/
 
 script:
     - make
