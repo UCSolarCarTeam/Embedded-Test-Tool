@@ -2,7 +2,7 @@ before_install:
     - git clone https://github.com/adamgreen/gcc4mbed.git
 
 install: 
-    - cd gcc4med 
+    - cd gcc4mbed 
     - ./linux-install
     - ./BuildShell
     - cd ..
