@@ -3,7 +3,8 @@
 bool assertOn(int pinNumber)
 {
 #ifdef DELTA
-    return (DigitalIn input(pinNameArray(pinNumber - 5)) == 1);
+    DigitalIn input(pinNameArray[pinNumber - PIN_OFFSET]);
+    return (input == OUTPUT_HI);
 #else
     // Not defined yet
     return false;
@@ -13,7 +14,8 @@ bool assertOn(int pinNumber)
 bool assertOff(int pinNumber)
 {
 #ifdef DELTA
-    return (DigitalIn input(pinNameArray(pinNumber - 5)) == 0);
+    DigitalIn input(pinNameArray[pinNumber - PIN_OFFSET]);
+    return (input == OUTPUT_LO);
 #else
     // Not defined yet
     return false;
@@ -30,7 +32,7 @@ bool assertToggling(int pinNumber)
     do
     {
     #ifdef DELTA
-        DigitalIn input(pinNameArray(pinNumber - 5));
+        DigitalIn input(pinNameArray[pinNumber - PIN_OFFSET]);
         if (input)
         {
             highSeen = true;
@@ -42,7 +44,7 @@ bool assertToggling(int pinNumber)
     #else
     #endif
         checkedTime = time(NULL);
-    } while ( (checkedTime - currentTime) < 2);
+    } while ( (checkedTime - currentTime) < SAMPLE_TIMEOUT);
 
     return (lowSeen & highSeen);
 }

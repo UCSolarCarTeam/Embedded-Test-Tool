@@ -1,28 +1,18 @@
-# Compiled Object files
-*.slo
-*.lo
+# Compiled source #
+###################
+*.elf
 *.o
-*.obj
+*.d
+!/mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/*.o
+!/mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/*.a
 
-# Precompiled Headers
-*.gch
-*.pch
+# Output #
+###################
+*.bin
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+# Sublime ignores #
+#######################
+.tags*
+.cproject
+.project
 
-# Fortran module files
-*.mod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app

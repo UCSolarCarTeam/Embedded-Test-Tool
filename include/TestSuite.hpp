@@ -1,15 +1,17 @@
 #ifndef TEST_SUITE_HPP
 #define TEST_SUITE_HPP
 
-#include "TestCase.hpp"
 #include <vector>
+#include <string>
+
+#include "TestCase.hpp"
 
 class TestSuite
 {
 public:
-    virtual void runTests() = 0;
+    std::string runTests();
 protected:
-    std::vector<TestCase> testCases;
+    std::vector<TestCase*> testCases;
 };
 
 #endif // TEST_SUITE_HPP

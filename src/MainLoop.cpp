@@ -1,4 +1,5 @@
 #include "mbed.h"
+#include "TestAssertions.hpp"
 
 int main(void)
 {
