@@ -15,5 +15,5 @@ before_script:
 
 script:
     - echo $PATH
-    - ls -l /tmp
+    - ls /tmp/gcc4mbed/gcc-arm-none-eabi/bin
     - make
