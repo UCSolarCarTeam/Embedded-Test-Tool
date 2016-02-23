@@ -1,5 +1,10 @@
 language: c++
 
+addons:
+    apt:
+        packages:
+        - ia32-libs
+
 before_install:
     - git clone https://github.com/adamgreen/gcc4mbed.git /tmp/gcc4mbed
 
@@ -14,6 +19,4 @@ before_script:
     - cd /home/travis/build/UCSolarCarTeam/Schulich-Delta-CCS-Test-Tool/
 
 script:
-    - echo $PATH
-    - ls /tmp/gcc4mbed/gcc-arm-none-eabi/bin
     - make
