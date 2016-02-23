@@ -7,10 +7,13 @@ install:
     - cd /tmp/gcc4mbed
     - sed -i.bak -e '108,114d;134d' linux_install
     - ./linux_install
+    - cd ..
+    - export PATH=$PATH:$PWD/gcc4mbed/gcc-arm-none-eabi/bin/
 
 before_script:
-    - export PATH=$PATH:/tmp/gcc4mbed/gcc-arm-none-eabi/bin/
     - cd /home/travis/build/UCSolarCarTeam/Schulich-Delta-CCS-Test-Tool/
 
 script:
+    - echo $PATH
+    - ls -l /tmp
     - make
