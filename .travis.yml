@@ -3,6 +3,7 @@ language: c++
 addons:
     apt:
         packages:
+        - ia32-libs-multiarch
         - ia32-libs
 
 before_install:
