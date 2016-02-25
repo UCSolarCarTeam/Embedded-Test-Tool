@@ -12,3 +12,8 @@ std::string TestSuite::runTests()
 
     return retString;
 }
+
+void TestSuite::addTestCase(TestCase* testCase)
+{
+	testCases.push_back(testCase);
+}

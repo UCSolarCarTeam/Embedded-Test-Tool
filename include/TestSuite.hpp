@@ -10,6 +10,8 @@ class TestSuite
 {
 public:
     std::string runTests();
+    void addTestCase(TestCase* testCase);
+
 protected:
     std::vector<TestCase*> testCases;
 };
