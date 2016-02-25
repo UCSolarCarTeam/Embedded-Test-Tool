@@ -9,6 +9,15 @@
 # Output #
 ###################
 *.bin
+RunTests
+
+# Compiled Static libraries #
+#############################
+*.lai
+*.la
+*.a
+*.lib
+
 
 # Sublime ignores #
 #######################
@@ -16,3 +25,7 @@
 .cproject
 .project
 
+# OS Files #
+############
+.DS_Store
+.fuse*
