@@ -9,7 +9,7 @@ class TestCase
 {
 public:
     virtual TEST_RESULT run() = 0;
-    std::string getTestName() const;
+    virtual std::string getTestName() const = 0;
 protected:
     // virtual void setup() = 0;
     // virtual void tearDown() = 0;

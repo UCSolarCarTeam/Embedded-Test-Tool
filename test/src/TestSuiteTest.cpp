@@ -1,4 +1,4 @@
-#include <map>
+#include <string>
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
@@ -9,28 +9,77 @@
 using ::testing::_;
 using ::testing::Return;
 using ::testing::DefaultValue;
+using ::testing::NiceMock;
 
 class TestSuiteTest : public ::testing::Test {
 protected:
-    MockTestCase* mockTestCase_;
+    NiceMock<MockTestCase> firstMockTestCase_;
+    TestSuite testSuite_;
 
     virtual void SetUp() {
-        mockTestCase_ = new MockTestCase();
-        ON_CALL(*mockTestCase_, getTestName())
+        ON_CALL(firstMockTestCase_, getTestName())
             .WillByDefault(Return("FirstTestCase"));
+    
+        testSuite_.addTestCase(&firstMockTestCase_);
     }
 
     virtual void TearDown() {
+
     }
 };
 
-TEST_F(TestSuiteTest, runsTestCase){
-    EXPECT_CALL(*mockTestCase_, run())
+TEST_F(TestSuiteTest, passString){
+    EXPECT_CALL(firstMockTestCase_, run())
+        .WillOnce(Return(PASSED));
+    testSuite_.runTests(); 
+    std::string resultString = testSuite_.runTests();
+
+    std::string expectedString = "FirstTestCase : PASSED\n";
+    EXPECT_EQ(expectedString, resultString);
+}
+
+TEST_F(TestSuiteTest, failString){
+    EXPECT_CALL(firstMockTestCase_, run())
+        .WillOnce(Return(FAILED));
+    testSuite_.runTests(); 
+    std::string resultString = testSuite_.runTests();
+    
+    std::string expectedString = "FirstTestCase : FAILED\n";
+    EXPECT_EQ(expectedString, resultString);
+}
+
+
+TEST_F(TestSuiteTest, mixedResultString){
+    EXPECT_CALL(firstMockTestCase_, run())
         .WillOnce(Return(PASSED));
     
-    TestSuite testSuite;
-    testSuite.addTestCase(mockTestCase_); 
-    testSuite.runTests();
+    NiceMock<MockTestCase> secondMockTestCase;
+    EXPECT_CALL(secondMockTestCase, run())
+        .WillOnce(Return(FAILED));
+    ON_CALL(secondMockTestCase, getTestName())
+        .WillByDefault(Return("SecondTestCase"));
+    testSuite_.addTestCase(&secondMockTestCase);
 
-    delete mockTestCase_;
+    NiceMock<MockTestCase> thirdMockTestCase;
+    EXPECT_CALL(thirdMockTestCase, run())
+        .WillOnce(Return(FAILED));
+    ON_CALL(thirdMockTestCase, getTestName())
+        .WillByDefault(Return("ThirdTestCase"));
+    testSuite_.addTestCase(&thirdMockTestCase);
+
+    NiceMock<MockTestCase> fourthMockTestCase;
+    EXPECT_CALL(fourthMockTestCase, run())
+        .WillOnce(Return(PASSED));
+    ON_CALL(fourthMockTestCase, getTestName())
+        .WillByDefault(Return("FourthTestCase"));
+    testSuite_.addTestCase(&fourthMockTestCase);
+
+    std::string expectedString = "FirstTestCase : PASSED\n"
+                     "SecondTestCase : FAILED\n"
+                     "ThirdTestCase : FAILED\n"
+                     "FourthTestCase : PASSED\n";
+    
+    testSuite_.runTests(); 
+    std::string resultString = testSuite_.runTests();
+    EXPECT_EQ(expectedString, resultString);
 }

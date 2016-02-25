@@ -7,7 +7,7 @@ std::string TestSuite::runTests()
     for (unsigned int i = 0; i < testCases.size(); i++)
     {
         retString.append(testCases[i]->getTestName() + " :");
-        testCases[i]->run() == 0 ? retString.append("PASSED\n") : retString.append("FAILED\n");
+        testCases[i]->run() == 0 ? retString.append(" PASSED\n") : retString.append(" FAILED\n");
     }
 
     return retString;
