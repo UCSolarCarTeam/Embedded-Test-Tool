@@ -31,7 +31,6 @@ protected:
 TEST_F(TestSuiteTest, passString){
     EXPECT_CALL(firstMockTestCase_, run())
         .WillOnce(Return(PASSED));
-    testSuite_.runTests(); 
     std::string resultString = testSuite_.runTests();
 
     std::string expectedString = "FirstTestCase : PASSED\n";
@@ -41,7 +40,6 @@ TEST_F(TestSuiteTest, passString){
 TEST_F(TestSuiteTest, failString){
     EXPECT_CALL(firstMockTestCase_, run())
         .WillOnce(Return(FAILED));
-    testSuite_.runTests(); 
     std::string resultString = testSuite_.runTests();
     
     std::string expectedString = "FirstTestCase : FAILED\n";
@@ -79,7 +77,6 @@ TEST_F(TestSuiteTest, mixedResultString){
                      "ThirdTestCase : FAILED\n"
                      "FourthTestCase : PASSED\n";
     
-    testSuite_.runTests(); 
     std::string resultString = testSuite_.runTests();
     EXPECT_EQ(expectedString, resultString);
 }
