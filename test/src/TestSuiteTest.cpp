@@ -19,7 +19,7 @@ protected:
     virtual void SetUp() {
         ON_CALL(firstMockTestCase_, getTestName())
             .WillByDefault(Return("FirstTestCase"));
-    
+
         testSuite_.addTestCase(&firstMockTestCase_);
     }
 
@@ -28,7 +28,7 @@ protected:
     }
 };
 
-TEST_F(TestSuiteTest, passString){
+TEST_F(TestSuiteTest, passString) {
     EXPECT_CALL(firstMockTestCase_, run())
         .WillOnce(Return(PASSED));
     std::string resultString = testSuite_.runTests();
@@ -37,20 +37,20 @@ TEST_F(TestSuiteTest, passString){
     EXPECT_EQ(expectedString, resultString);
 }
 
-TEST_F(TestSuiteTest, failString){
+TEST_F(TestSuiteTest, failString) {
     EXPECT_CALL(firstMockTestCase_, run())
         .WillOnce(Return(FAILED));
     std::string resultString = testSuite_.runTests();
-    
+
     std::string expectedString = "FirstTestCase : FAILED\n";
     EXPECT_EQ(expectedString, resultString);
 }
 
 
-TEST_F(TestSuiteTest, mixedResultString){
+TEST_F(TestSuiteTest, mixedResultString) {
     EXPECT_CALL(firstMockTestCase_, run())
         .WillOnce(Return(PASSED));
-    
+
     NiceMock<MockTestCase> secondMockTestCase;
     EXPECT_CALL(secondMockTestCase, run())
         .WillOnce(Return(FAILED));
@@ -60,23 +60,16 @@ TEST_F(TestSuiteTest, mixedResultString){
 
     NiceMock<MockTestCase> thirdMockTestCase;
     EXPECT_CALL(thirdMockTestCase, run())
-        .WillOnce(Return(FAILED));
+        .WillOnce(Return(PASSED ));
     ON_CALL(thirdMockTestCase, getTestName())
         .WillByDefault(Return("ThirdTestCase"));
     testSuite_.addTestCase(&thirdMockTestCase);
 
-    NiceMock<MockTestCase> fourthMockTestCase;
-    EXPECT_CALL(fourthMockTestCase, run())
-        .WillOnce(Return(PASSED));
-    ON_CALL(fourthMockTestCase, getTestName())
-        .WillByDefault(Return("FourthTestCase"));
-    testSuite_.addTestCase(&fourthMockTestCase);
 
     std::string expectedString = "FirstTestCase : PASSED\n"
-                     "SecondTestCase : FAILED\n"
-                     "ThirdTestCase : FAILED\n"
-                     "FourthTestCase : PASSED\n";
-    
+                                 "SecondTestCase : FAILED\n"
+                                 "ThirdTestCase : PASSED\n";
+
     std::string resultString = testSuite_.runTests();
     EXPECT_EQ(expectedString, resultString);
 }
