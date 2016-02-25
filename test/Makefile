@@ -2,7 +2,7 @@ OBJS = $(wildcard src/*.cpp) ../src/TestSuite.cpp
 
 COMPILE_FLAGS = -g -std=c++11 -Werror
 
-LINK_FLAGS = -pthread 
+LINK_FLAGS = -pthread
 
 OUTPUT_NAME = RunTests
 
