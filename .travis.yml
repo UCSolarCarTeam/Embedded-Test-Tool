@@ -12,6 +12,6 @@ install:
 before-install:
     - chmod +x makeall.sh
 
-script: ./makeall.sh test
+script: sudo ./makeall.sh test
 
 language: cpp
