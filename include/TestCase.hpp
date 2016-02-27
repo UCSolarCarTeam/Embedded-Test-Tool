@@ -13,7 +13,6 @@ public:
 protected:
     // virtual void setup() = 0;
     // virtual void tearDown() = 0;
-private:
     std::string testName;
 };
 
