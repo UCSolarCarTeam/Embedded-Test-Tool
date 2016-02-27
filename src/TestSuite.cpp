@@ -15,5 +15,5 @@ std::string TestSuite::runTests()
 
 void TestSuite::addTestCase(TestCase* testCase)
 {
-	testCases.push_back(testCase);
+    testCases.push_back(testCase);
 }

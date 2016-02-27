@@ -13,14 +13,14 @@ using ::testing::NiceMock;
 
 class TestSuiteTest : public ::testing::Test {
 protected:
-    NiceMock<MockTestCase> firstMockTestCase_;
-    TestSuite testSuite_;
+    NiceMock<MockTestCase> firstMockTestCase;
+    TestSuite testSuite;
 
     virtual void SetUp() {
-        ON_CALL(firstMockTestCase_, getTestName())
+        ON_CALL(firstMockTestCase, getTestName())
             .WillByDefault(Return("FirstTestCase"));
 
-        testSuite_.addTestCase(&firstMockTestCase_);
+        testSuite.addTestCase(&firstMockTestCase);
     }
 
     virtual void TearDown() {
@@ -29,18 +29,18 @@ protected:
 };
 
 TEST_F(TestSuiteTest, passString) {
-    EXPECT_CALL(firstMockTestCase_, run())
+    EXPECT_CALL(firstMockTestCase, run())
         .WillOnce(Return(PASSED));
-    std::string resultString = testSuite_.runTests();
+    std::string resultString = testSuite.runTests();
 
     std::string expectedString = "FirstTestCase : PASSED\n";
     EXPECT_EQ(expectedString, resultString);
 }
 
 TEST_F(TestSuiteTest, failString) {
-    EXPECT_CALL(firstMockTestCase_, run())
+    EXPECT_CALL(firstMockTestCase, run())
         .WillOnce(Return(FAILED));
-    std::string resultString = testSuite_.runTests();
+    std::string resultString = testSuite.runTests();
 
     std::string expectedString = "FirstTestCase : FAILED\n";
     EXPECT_EQ(expectedString, resultString);
@@ -48,7 +48,7 @@ TEST_F(TestSuiteTest, failString) {
 
 
 TEST_F(TestSuiteTest, mixedResultString) {
-    EXPECT_CALL(firstMockTestCase_, run())
+    EXPECT_CALL(firstMockTestCase, run())
         .WillOnce(Return(PASSED));
 
     NiceMock<MockTestCase> secondMockTestCase;
@@ -56,20 +56,20 @@ TEST_F(TestSuiteTest, mixedResultString) {
         .WillOnce(Return(FAILED));
     ON_CALL(secondMockTestCase, getTestName())
         .WillByDefault(Return("SecondTestCase"));
-    testSuite_.addTestCase(&secondMockTestCase);
+    testSuite.addTestCase(&secondMockTestCase);
 
     NiceMock<MockTestCase> thirdMockTestCase;
     EXPECT_CALL(thirdMockTestCase, run())
         .WillOnce(Return(PASSED ));
     ON_CALL(thirdMockTestCase, getTestName())
         .WillByDefault(Return("ThirdTestCase"));
-    testSuite_.addTestCase(&thirdMockTestCase);
+    testSuite.addTestCase(&thirdMockTestCase);
 
 
     std::string expectedString = "FirstTestCase : PASSED\n"
                                  "SecondTestCase : FAILED\n"
                                  "ThirdTestCase : PASSED\n";
 
-    std::string resultString = testSuite_.runTests();
+    std::string resultString = testSuite.runTests();
     EXPECT_EQ(expectedString, resultString);
 }
