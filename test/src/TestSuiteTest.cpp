@@ -11,24 +11,28 @@ using ::testing::Return;
 using ::testing::DefaultValue;
 using ::testing::NiceMock;
 
-class TestSuiteTest : public ::testing::Test {
+class TestSuiteTest : public ::testing::Test
+{
 protected:
     NiceMock<MockTestCase> firstMockTestCase;
     TestSuite testSuite;
 
-    virtual void SetUp() {
+    virtual void SetUp()
+    {
         ON_CALL(firstMockTestCase, getTestName())
             .WillByDefault(Return("FirstTestCase"));
 
         testSuite.addTestCase(&firstMockTestCase);
     }
 
-    virtual void TearDown() {
+    virtual void TearDown()
+    {
 
     }
 };
 
-TEST_F(TestSuiteTest, passString) {
+TEST_F(TestSuiteTest, passString)
+{
     EXPECT_CALL(firstMockTestCase, run())
         .WillOnce(Return(PASSED));
     std::string resultString = testSuite.runTests();
@@ -37,7 +41,8 @@ TEST_F(TestSuiteTest, passString) {
     EXPECT_EQ(expectedString, resultString);
 }
 
-TEST_F(TestSuiteTest, failString) {
+TEST_F(TestSuiteTest, failString)
+{
     EXPECT_CALL(firstMockTestCase, run())
         .WillOnce(Return(FAILED));
     std::string resultString = testSuite.runTests();
@@ -47,7 +52,8 @@ TEST_F(TestSuiteTest, failString) {
 }
 
 
-TEST_F(TestSuiteTest, mixedResultString) {
+TEST_F(TestSuiteTest, mixedResultString)
+{
     EXPECT_CALL(firstMockTestCase, run())
         .WillOnce(Return(PASSED));
 
