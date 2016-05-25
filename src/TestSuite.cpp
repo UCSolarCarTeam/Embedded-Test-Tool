@@ -1,19 +1,65 @@
 #include "TestSuite.hpp"
 
-std::string TestSuite::runTests()
+std::vector<std::string> TestSuite::runTests() const
 {
-    std::string retString;
+    std::vector<std::string> retVector;
 
-    for (unsigned int i = 0; i < testCases.size(); i++)
+    retVector.emplace_back("----TEST RESULTS----");
+
+    for (auto i = testCases.cbegin(); i != testCases.cend(); i++)
     {
-        retString.append(testCases[i]->getTestName() + " :");
-        testCases[i]->run() == 0 ? retString.append(" PASSED\n") : retString.append(" FAILED\n");
+        std::string resultString = i->second->run();
+
+        if (resultString.compare(" ") == 0)
+        {
+            retVector.emplace_back(i->first + ": PASSED");
+        }
+        else
+        {
+            retVector.emplace_back(i->first + ": FAILED");
+            retVector.emplace_back(resultString);
+        }
     }
 
-    return retString;
+    return retVector;
 }
 
-void TestSuite::addTestCase(TestCase* testCase)
+std::vector<std::string> TestSuite::runTest(std::string name)
 {
-    testCases.push_back(testCase);
+    std::vector<std::string> retVector;
+
+    if (name.compare("all") == 0 )
+    {
+        return runTests();
+    }
+    else
+    {
+        auto found = testCases.find(name);
+
+        if (found != testCases.end())
+        {
+            retVector.emplace_back(name + ": ");
+            retVector.emplace_back(testCases[name]->run());
+        }
+        else
+        {
+            retVector.emplace_back("Error: no such test named: " + name);
+        }
+        return retVector;
+    }
+}
+
+void TestSuite::addTestCase(TestCase *testCase)
+{
+    testCases.insert(std::pair<std::string, TestCase*>(testCase->getTestName(), testCase));
+}
+
+std::map<std::string, TestCase*>::const_iterator TestSuite::getBegin() const
+{
+    return testCases.cbegin();
+}
+
+std::map<std::string, TestCase*>::const_iterator TestSuite::getEnd() const
+{
+    return testCases.cend();
 }
