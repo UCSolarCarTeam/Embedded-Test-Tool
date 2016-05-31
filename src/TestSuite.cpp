@@ -4,8 +4,6 @@ std::vector<std::string> TestSuite::runTests() const
 {
     std::vector<std::string> retVector;
 
-    retVector.emplace_back("----TEST RESULTS----");
-
     for (auto i = testCases.cbegin(); i != testCases.cend(); i++)
     {
         std::string resultString = i->second->run();
@@ -16,8 +14,7 @@ std::vector<std::string> TestSuite::runTests() const
         }
         else
         {
-            retVector.emplace_back(i->first + ": FAILED");
-            retVector.emplace_back(resultString);
+            retVector.emplace_back(i->first + ": FAILED: " + resultString);
         }
     }
 

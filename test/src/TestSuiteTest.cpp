@@ -37,12 +37,13 @@ TEST_F(TestSuiteTest, passString)
         .WillOnce(Return(" "));
     std::vector<std::string> resultStrings = testSuite.runTests();
 
+
     std::vector<std::string> expectedStrings;
     expectedStrings.emplace_back("FirstTestCase: PASSED");
 
-    for(auto i = 0; i < resultStrings.size(); i++)
+    for(auto i = 0; i < expectedStrings.size(); i++)
     {
-        EXPECT_EQ(expectedStrings[i], resultStrings[i+1]);
+        EXPECT_EQ(expectedStrings[i], resultStrings[i]);
     }
 }
 
@@ -53,11 +54,11 @@ TEST_F(TestSuiteTest, failString)
     std::vector<std::string> resultStrings = testSuite.runTests();
 
     std::vector<std::string> expectedStrings;
-    expectedStrings.emplace_back("FirstTestCase: FAILED");
+    expectedStrings.emplace_back("FirstTestCase: FAILED: FAILURE");
 
-    for(auto i = 0; i < resultStrings.size(); i++)
+    for(auto i = 0; i < expectedStrings.size(); i++)
     {
-        EXPECT_EQ(expectedStrings[i], resultStrings[i+1]);
+        EXPECT_EQ(expectedStrings[i], resultStrings[i]);
     }
 }
 
@@ -83,13 +84,13 @@ TEST_F(TestSuiteTest, mixedResultString)
 
     std::vector<std::string> expectedStrings;
     expectedStrings.emplace_back("FirstTestCase: PASSED");
-    expectedStrings.emplace_back("SecondTestCase: FAILED");
+    expectedStrings.emplace_back("SecondTestCase: FAILED: FAILURE");
     expectedStrings.emplace_back("ThirdTestCase: PASSED");
 
     std::vector<std::string> resultStrings = testSuite.runTests();
 
-    for(auto i = 0; i < resultStrings.size(); i++)
+    for(auto i = 0; i < expectedStrings.size(); i++)
     {
-        EXPECT_EQ(expectedStrings[i], resultStrings[i+1]);
+        EXPECT_EQ(expectedStrings[i], resultStrings[i]);
     }
 }
