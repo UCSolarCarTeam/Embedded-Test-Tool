@@ -6,7 +6,7 @@
 class TestCase
 {
 public:
-    virtual std::string run() = 0;
+    virtual std::string run() const = 0;
     virtual std::string getTestName() const = 0;
 protected:
     // virtual void setup() = 0;

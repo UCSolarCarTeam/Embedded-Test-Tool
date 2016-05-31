@@ -4,7 +4,7 @@
 #include "DummyTestA.hpp"
 #include "DummyTestB.hpp"
 
-char command_buf[256];
+char commandBuf[256];
 TestSuite testAll;
 DummyTestA A;
 DummyTestB B;
@@ -16,15 +16,15 @@ int main(void)
     Serial pc(USBTX, USBRX); // tx, rx
     pc.baud(9600);
 
-    char c;
-    int idx = 0;
+    char inputChar;
+    int commandBufIdx = 0;
 
     testAll.addTestCase(&A);
     testAll.addTestCase(&B);
 
     while (running)
     {
-        if (idx == 0)
+        if (commandBufIdx == 0)
         {
             pc.printf("Select a test case or enter ':q' to quit\r\n");
             for (auto i = testAll.getBegin(); i != testAll.getEnd(); i++)
@@ -32,20 +32,24 @@ int main(void)
                 pc.printf("%s\r\n",i->first.c_str());
             }
         }
-
-        c = pc.getc();
-        pc.putc(c);
-
-        if (c == '\n' || c == '\r')
+        else if(commandBufIdx == 256)
         {
-            if (strcmp(command_buf, ":q") == 0)
+            commandBufIdx = 0;
+        }
+
+        inputChar = pc.getc();
+        pc.putc(inputChar);
+
+        if (inputChar == '\n' || inputChar == '\r')
+        {
+            if (strcmp(commandBuf, ":q") == 0)
             {
                 running = false;
                 pc.printf("Ending program, goodbye!\r\n");
             }
             else
             {
-                std::vector<std::string> res = testAll.runTest(std::string(command_buf));
+                std::vector<std::string> res = testAll.runTest(std::string(commandBuf));
 
                 // Start of result printing
                 pc.printf("\r\n");
@@ -58,14 +62,14 @@ int main(void)
                 // End of result printing
                 pc.printf("\r\n");
 
-                memset(command_buf, 0, sizeof(command_buf));
-                idx = 0;
+                memset(commandBuf, 0, sizeof(commandBuf));
+                commandBufIdx = 0;
             }
         }
         else
         {
-            command_buf[idx] = c;
-            idx++;
+            commandBuf[commandBufIdx] = inputChar;
+            commandBufIdx++;
         }
     }
     return 0;

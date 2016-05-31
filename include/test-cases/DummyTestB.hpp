@@ -3,7 +3,7 @@
 class DummyTestB : public TestCase
 {
 public:
-    std::string run()
+    std::string run() const
     {
         return " ";
     }
