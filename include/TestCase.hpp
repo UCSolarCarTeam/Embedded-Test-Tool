@@ -3,12 +3,10 @@
 
 #include <string>
 
-#include "TestResult.hpp"
-
 class TestCase
 {
 public:
-    virtual TEST_RESULT run() = 0;
+    virtual std::string run() const = 0;
     virtual std::string getTestName() const = 0;
 protected:
     // virtual void setup() = 0;
@@ -17,4 +15,3 @@ protected:
 };
 
 #endif // TEST_HPP
-

@@ -34,48 +34,63 @@ protected:
 TEST_F(TestSuiteTest, passString)
 {
     EXPECT_CALL(firstMockTestCase, run())
-        .WillOnce(Return(PASSED));
-    std::string resultString = testSuite.runTests();
+        .WillOnce(Return(" "));
+    std::vector<std::string> resultStrings = testSuite.runTests();
 
-    std::string expectedString = "FirstTestCase : PASSED\n";
-    EXPECT_EQ(expectedString, resultString);
+
+    std::vector<std::string> expectedStrings;
+    expectedStrings.emplace_back("FirstTestCase: PASSED");
+
+    for(auto i = 0; i < expectedStrings.size(); i++)
+    {
+        EXPECT_EQ(expectedStrings[i], resultStrings[i]);
+    }
 }
 
 TEST_F(TestSuiteTest, failString)
 {
     EXPECT_CALL(firstMockTestCase, run())
-        .WillOnce(Return(FAILED));
-    std::string resultString = testSuite.runTests();
+        .WillOnce(Return("FAILURE"));
+    std::vector<std::string> resultStrings = testSuite.runTests();
 
-    std::string expectedString = "FirstTestCase : FAILED\n";
-    EXPECT_EQ(expectedString, resultString);
+    std::vector<std::string> expectedStrings;
+    expectedStrings.emplace_back("FirstTestCase: FAILED: FAILURE");
+
+    for(auto i = 0; i < expectedStrings.size(); i++)
+    {
+        EXPECT_EQ(expectedStrings[i], resultStrings[i]);
+    }
 }
 
 
 TEST_F(TestSuiteTest, mixedResultString)
 {
     EXPECT_CALL(firstMockTestCase, run())
-        .WillOnce(Return(PASSED));
+        .WillOnce(Return(" "));
 
     NiceMock<MockTestCase> secondMockTestCase;
     EXPECT_CALL(secondMockTestCase, run())
-        .WillOnce(Return(FAILED));
+        .WillOnce(Return("FAILURE"));
     ON_CALL(secondMockTestCase, getTestName())
         .WillByDefault(Return("SecondTestCase"));
     testSuite.addTestCase(&secondMockTestCase);
 
     NiceMock<MockTestCase> thirdMockTestCase;
     EXPECT_CALL(thirdMockTestCase, run())
-        .WillOnce(Return(PASSED ));
+        .WillOnce(Return(" "));
     ON_CALL(thirdMockTestCase, getTestName())
         .WillByDefault(Return("ThirdTestCase"));
     testSuite.addTestCase(&thirdMockTestCase);
 
+    std::vector<std::string> expectedStrings;
+    expectedStrings.emplace_back("FirstTestCase: PASSED");
+    expectedStrings.emplace_back("SecondTestCase: FAILED: FAILURE");
+    expectedStrings.emplace_back("ThirdTestCase: PASSED");
 
-    std::string expectedString = "FirstTestCase : PASSED\n"
-                                 "SecondTestCase : FAILED\n"
-                                 "ThirdTestCase : PASSED\n";
+    std::vector<std::string> resultStrings = testSuite.runTests();
 
-    std::string resultString = testSuite.runTests();
-    EXPECT_EQ(expectedString, resultString);
+    for(auto i = 0; i < expectedStrings.size(); i++)
+    {
+        EXPECT_EQ(expectedStrings[i], resultStrings[i]);
+    }
 }
