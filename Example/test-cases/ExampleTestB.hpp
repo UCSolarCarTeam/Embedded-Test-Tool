@@ -1,16 +1,16 @@
 #include "TestCase.hpp"
 
-class DummyTestA : public TestCase
+class ExampleTestB : public TestCase
 {
 public:
     std::string run() const
     {
-        return "This dummy test failed!";
+        return " ";
     }
 
     std::string getTestName() const
     {
-        return "DummyTestA";
+        return "ExampleTestB";
     }
 
 };
