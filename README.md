@@ -1,7 +1,26 @@
-# Schulich-Delta-CCS-Test-Tool
-This test MBED code aims to simulate input values for the CCS.
-These values wil be ones the CCS would typically expect from Schulich Delta.
-The test MBED will then return output values or pass/fail based on how the CCS handled the inputs.
+# Embedded Test Tool
+
+This is an embedded system testing tool which is powered by an MBED LPC1768.
+It is built by the University of Calgary Solar Car Team with the purpose of testing the Gen 5 Solar Car embedded systems.
+The embedded test tool will send out signals connected to a different board, and check the signals coming back.
+The test MBED is controlled via serial and will output pass, fail, and information messages based on how the target board handled the inputs.
+
+## Compiling
+
+To compile, you will need the `arm-none-eabi-g++` compiler.
+You can get it from https://github.com/adamgreen/gcc4mbed.
+Run whichever installer script matches your OS, then run the `BuildShell` script.
+This will temporarily add the compiler to your PATH, you can then compile.
+You can use the `makeall.sh` script to compile both the tests and source and then run the tests.
+To only compile, simply run `make` in the root directory. 
+
+## Running
+
+After compiling the source, a `EmbeddedTestTool.bin` will be created in the root directory.
+Connect an mbed LPC1768 to your computer and copy `EmbeddedTestTool.bin` into the root directory of the MBED. 
+To interact with the program, you will need to connect to the MBED's serial port, you can do this with [PuTTy](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html).
+
+Once you are connected, press `ENTER` to receive output from the program, afterwards follow the onscreen instructions.
 
 ## Testing
 
@@ -17,7 +36,7 @@ To create a `libgmock.a` file follow these instructions in an arbitrary dir.
 2. Go into the cloned directory
     `cd googletest/`
 
-3. Compile googletest:
+3. Compile googletest:[]
     `g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igooglemock -pthread -c googletest/src/gtest-all.cc`
 
 4. Compile googlemock:
