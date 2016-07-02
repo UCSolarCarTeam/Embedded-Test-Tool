@@ -1,15 +1,13 @@
 #include "mbed.h"
-#include "TestAssertions.hpp"
+
+#include "EmVer.hpp"
 #include "TestSuite.hpp"
-#include "DummyTestA.hpp"
-#include "DummyTestB.hpp"
 
-char commandBuf[256];
-TestSuite testAll;
-DummyTestA A;
-DummyTestB B;
+EmVer::EmVer(std::vector<TestSuite> testSuites)
+: testSuites_(testSuites)
+{}
 
-int main(void)
+void EmVer::start()
 {
     // Stub for main loop
     bool running = true;
@@ -19,15 +17,12 @@ int main(void)
     char inputChar;
     int commandBufIdx = 0;
 
-    testAll.addTestCase(&A);
-    testAll.addTestCase(&B);
-
     while (running)
     {
         if (commandBufIdx == 0)
         {
             pc.printf("Select a test case or enter ':q' to quit\r\n");
-            for (auto i = testAll.getBegin(); i != testAll.getEnd(); i++)
+            for (auto i = testSuites_[0].getBegin(); i != testSuites_[0].getEnd(); i++)
             {
                 pc.printf("%s\r\n",i->first.c_str());
             }
@@ -42,14 +37,14 @@ int main(void)
 
         if (inputChar == '\n' || inputChar == '\r')
         {
-            if (strcmp(commandBuf, ":q") == 0)
+            if (strcmp(commandBuf_, ":q") == 0)
             {
                 running = false;
                 pc.printf("Ending program, goodbye!\r\n");
             }
             else
             {
-                std::vector<std::string> res = testAll.runTest(std::string(commandBuf));
+                std::vector<std::string> res = testSuites_[0].runTest(std::string(commandBuf_));
 
                 // Start of result printing
                 pc.printf("\r\n");
@@ -62,15 +57,14 @@ int main(void)
                 // End of result printing
                 pc.printf("\r\n");
 
-                memset(commandBuf, 0, sizeof(commandBuf));
+                memset(commandBuf_, 0, sizeof(commandBuf_));
                 commandBufIdx = 0;
             }
         }
         else
         {
-            commandBuf[commandBufIdx] = inputChar;
+            commandBuf_[commandBufIdx] = inputChar;
             commandBufIdx++;
         }
     }
-    return 0;
 }
