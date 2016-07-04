@@ -8,7 +8,7 @@ public:
         return "This example test failed!";
     }
 
-    std::string getTestName() const
+    std::string name() const
     {
         return "ExampleTestA";
     }

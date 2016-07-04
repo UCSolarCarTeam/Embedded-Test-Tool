@@ -8,7 +8,7 @@ public:
         return " ";
     }
 
-    std::string getTestName() const
+    std::string name() const
     {
         return "ExampleTestB";
     }

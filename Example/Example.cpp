@@ -4,14 +4,12 @@
 #include "ExampleTestA.hpp"
 #include "ExampleTestB.hpp"
 
-int main() 
+int main()
 {
-	TestSuite exampleSuite;
 	ExampleTestA A;
 	ExampleTestB B;
-	exampleSuite.addTestCase(&A);
-	exampleSuite.addTestCase(&B);
-	
+	TestSuite exampleSuite({&A, &B}, "Example");
+
 	std::vector<TestSuite> tests {exampleSuite};
 	EmVer e(tests);
 	e.start();

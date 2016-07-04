@@ -1,9 +1,6 @@
-#ifndef TEST_SUITE_HPP
-#define TEST_SUITE_HPP
+#pragma once
 
 #include <string>
-#include <map>
-#include <iterator>
 #include <vector>
 
 #include "TestCase.hpp"
@@ -11,14 +8,13 @@
 class TestSuite
 {
 public:
-    std::vector<std::string> runTests() const;
-    void addTestCase(TestCase* testCase);
-    std::vector<std::string> runTest(std::string name);
-    std::map<std::string, TestCase*>::const_iterator getBegin() const;
-    std::map<std::string, TestCase*>::const_iterator getEnd() const;
+	TestSuite(std::vector<TestCase*> testCases, std::string name);
+	int totalTestCases() const;
+	std::string name() const;
+	std::string testCaseName(unsigned int i) const;
+	std::string runTestCase(unsigned int i) const;
 
 protected:
-    std::map<std::string, TestCase*> testCases;
+    std::vector<TestCase*> testCases_;
+    std::string name_;
 };
-
-#endif // TEST_SUITE_HPP

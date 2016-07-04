@@ -1,62 +1,50 @@
+#include <string>
+#include <sstream>
+
 #include "TestSuite.hpp"
 
-std::vector<std::string> TestSuite::runTests() const
+
+TestSuite::TestSuite(std::vector<TestCase*> testCases, std::string name)
+: testCases_(testCases)
+, name_(name)
+{}
+
+int TestSuite::totalTestCases() const
 {
-    std::vector<std::string> retVector;
-
-    for (auto i = testCases.cbegin(); i != testCases.cend(); i++)
-    {
-        std::string resultString = i->second->run();
-
-        if (resultString.compare(" ") == 0)
-        {
-            retVector.emplace_back(i->first + ": PASSED");
-        }
-        else
-        {
-            retVector.emplace_back(i->first + ": FAILED: " + resultString);
-        }
-    }
-
-    return retVector;
+    return testCases_.size();
 }
 
-std::vector<std::string> TestSuite::runTest(std::string name)
+std::string TestSuite::name() const
 {
-    std::vector<std::string> retVector;
+    return name_;
+}
 
-    if (name.compare("all") == 0 )
+std::string TestSuite::testCaseName(unsigned int i) const
+{
+    if(i >= testCases_.size())
     {
-        return runTests();
+        std::ostringstream outOfRangeStream;
+        outOfRangeStream << "testCaseName index out of range : " << i << "\n"
+                         << testCases_.size() << " existing test cases";
+        return outOfRangeStream.str();
     }
     else
     {
-        auto found = testCases.find(name);
-
-        if (found != testCases.end())
-        {
-            retVector.emplace_back(name + ": ");
-            retVector.emplace_back(testCases[name]->run());
-        }
-        else
-        {
-            retVector.emplace_back("Error: no such test named: " + name);
-        }
-        return retVector;
+        return testCases_[i]->name();
     }
 }
 
-void TestSuite::addTestCase(TestCase *testCase)
+std::string TestSuite::runTestCase(unsigned int i) const
 {
-    testCases.insert(std::pair<std::string, TestCase*>(testCase->getTestName(), testCase));
-}
-
-std::map<std::string, TestCase*>::const_iterator TestSuite::getBegin() const
-{
-    return testCases.cbegin();
-}
-
-std::map<std::string, TestCase*>::const_iterator TestSuite::getEnd() const
-{
-    return testCases.cend();
+    if(i >= testCases_.size())
+    {
+        std::ostringstream outOfRangeStream;
+        outOfRangeStream << "runTest index out of range : " << i << "\n"
+                         << testCases_.size() << " existing test cases";
+        return outOfRangeStream.str();
+    }
+    else
+    {
+        return testCases_[i]->run();
+    }
 }

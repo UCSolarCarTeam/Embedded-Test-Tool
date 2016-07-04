@@ -14,15 +14,12 @@ using ::testing::NiceMock;
 class TestSuiteTest : public ::testing::Test
 {
 protected:
-    NiceMock<MockTestCase> firstMockTestCase;
-    TestSuite testSuite;
+    NiceMock<MockTestCase> firstMockTestCase_;
 
     virtual void SetUp()
     {
-        ON_CALL(firstMockTestCase, getTestName())
+        ON_CALL(firstMockTestCase_, name())
             .WillByDefault(Return("FirstTestCase"));
-
-        testSuite.addTestCase(&firstMockTestCase);
     }
 
     virtual void TearDown()
@@ -31,66 +28,63 @@ protected:
     }
 };
 
-TEST_F(TestSuiteTest, passString)
+TEST_F(TestSuiteTest, nameTest)
 {
-    EXPECT_CALL(firstMockTestCase, run())
-        .WillOnce(Return(" "));
-    std::vector<std::string> resultStrings = testSuite.runTests();
-
-
-    std::vector<std::string> expectedStrings;
-    expectedStrings.emplace_back("FirstTestCase: PASSED");
-
-    for(auto i = 0; i < expectedStrings.size(); i++)
-    {
-        EXPECT_EQ(expectedStrings[i], resultStrings[i]);
-    }
+    std::string expected =  "testSuite";
+    auto testSuite = TestSuite({}, expected);
+    EXPECT_EQ(testSuite.name(), expected);
 }
+
 
 TEST_F(TestSuiteTest, failString)
 {
-    EXPECT_CALL(firstMockTestCase, run())
-        .WillOnce(Return("FAILURE"));
-    std::vector<std::string> resultStrings = testSuite.runTests();
-
-    std::vector<std::string> expectedStrings;
-    expectedStrings.emplace_back("FirstTestCase: FAILED: FAILURE");
-
-    for(auto i = 0; i < expectedStrings.size(); i++)
-    {
-        EXPECT_EQ(expectedStrings[i], resultStrings[i]);
-    }
+    auto testSuite = TestSuite({&firstMockTestCase_}, "_");
+    std::string expected = "FAILURE\nPASSED";
+    EXPECT_CALL(firstMockTestCase_, run())
+        .WillOnce(Return(expected));
+    std::string actual = testSuite.runTestCase(0);
+    EXPECT_EQ(expected, actual);
 }
 
 
-TEST_F(TestSuiteTest, mixedResultString)
+TEST_F(TestSuiteTest, manyTests)
 {
-    EXPECT_CALL(firstMockTestCase, run())
+    EXPECT_CALL(firstMockTestCase_, run())
         .WillOnce(Return(" "));
 
     NiceMock<MockTestCase> secondMockTestCase;
     EXPECT_CALL(secondMockTestCase, run())
         .WillOnce(Return("FAILURE"));
-    ON_CALL(secondMockTestCase, getTestName())
+    ON_CALL(secondMockTestCase, name())
         .WillByDefault(Return("SecondTestCase"));
-    testSuite.addTestCase(&secondMockTestCase);
 
     NiceMock<MockTestCase> thirdMockTestCase;
     EXPECT_CALL(thirdMockTestCase, run())
         .WillOnce(Return(" "));
-    ON_CALL(thirdMockTestCase, getTestName())
+    ON_CALL(thirdMockTestCase, name())
         .WillByDefault(Return("ThirdTestCase"));
-    testSuite.addTestCase(&thirdMockTestCase);
 
-    std::vector<std::string> expectedStrings;
-    expectedStrings.emplace_back("FirstTestCase: PASSED");
-    expectedStrings.emplace_back("SecondTestCase: FAILED: FAILURE");
-    expectedStrings.emplace_back("ThirdTestCase: PASSED");
-
-    std::vector<std::string> resultStrings = testSuite.runTests();
-
-    for(auto i = 0; i < expectedStrings.size(); i++)
+    auto testSuite = TestSuite({&firstMockTestCase_, &secondMockTestCase, &thirdMockTestCase}, "_");
+    for(int i = 0; i < testSuite.totalTestCases(); i++)
     {
-        EXPECT_EQ(expectedStrings[i], resultStrings[i]);
+        testSuite.runTestCase(i);
     }
+}
+
+TEST_F(TestSuiteTest, outOfBoundName)
+{
+    auto testSuite = TestSuite({&firstMockTestCase_}, "_");
+
+    auto expected = "testCaseName index out of range : 1\n1 existing test cases";
+    auto actual = testSuite.testCaseName(1);
+    EXPECT_EQ(expected, actual);
+}
+
+TEST_F(TestSuiteTest, outOfBoundRun)
+{
+    auto testSuite = TestSuite({&firstMockTestCase_}, "_");
+
+    auto expected = "runTest index out of range : 1\n1 existing test cases";
+    auto actual = testSuite.runTestCase(1);
+    EXPECT_EQ(expected, actual);
 }

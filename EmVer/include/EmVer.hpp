@@ -10,5 +10,4 @@ public:
 
 private:
 	std::vector<TestSuite> testSuites_;
-	char commandBuf_[256];
 };
