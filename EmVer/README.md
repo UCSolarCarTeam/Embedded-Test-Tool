@@ -1,12 +1,12 @@
 # Embedded Test Tool
 
-This is an embedded system testing tool which is powered by an MBED LPC1768.
+This is an embedded system testing tool which is powered by an mbed LPC1768.
 It is built by the University of Calgary Solar Car Team with the purpose of testing the Gen 5 Solar Car embedded systems.
 The embedded test tool is run on EmVer, short for EmbeddedVerifier.
 EmVer is a test library to be used in conjunction with an LPC1768.
 EmVer will be constructed in one `TestScheme` with a set of test suites and test cases.
-For each test case, EmVer will receive input via a serial interface and output results back onto the serial interface.
-The test MBED is controlled via serial and will output pass, fail, and information messages based on how the target board handled the inputs.
+For each test case, EmVer will write test results out to a serial port as well as to a local file.
+The test mbed is controlled via serial and will output pass, fail, and information messages based on how the target board handled the inputs.
 
 ## Developing
 
@@ -44,16 +44,26 @@ Congratulations! You now have a `libgmock.a` archive file, now include it in the
 
 ### Compiling
 
-You can use the `Embedded-Test-Tool/EmVer/makeall.sh` script to compile the tests, compile the Example source and then run the tests.
+You can use the `Embedded-Test-Tool/EmVer/emverTest.sh` script to compile the tests, compile the Example source and then run the tests.
 Directories in the root that are not `EmVer`, `mbed`, or `Example` are `TestSchemes` built for a specific board.
 Each `TestScheme` is to be compiled separately creating a separate `.bin` for every `TestScheme`.
 
 ## Running
 
-After compiling the source, a `EmbeddedTestTool.bin` will be created in the root directory.
-Connect an mbed LPC1768 to your computer and copy `EmbeddedTestTool.bin` into the root directory of the MBED. 
-To interact with the program, you will need to connect to the MBED's serial port, you can do this with [PuTTy](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html).
-PuTTy can be installed via `sudo apt-get install putty` for Linux users.
+After compiling the source, a `.bin` file will be created in the root directory.
+Connect an mbed LPC1768 to your computer and copy `.bin` into the root directory of the mbed.
+
+### Reading the Output File
+
+After a test run has completed, an output file called TESTRESU.TXT will be created on the mbed, you can read the test results as is from the file.
+
+### Reading Serial Output
+
+To get serial output from the program, you will need to connect to the mbed's serial port.
+The simplest way to do this on linux machines is using `cat /dev/ttyACM0`, you will need to  change the serial port accordingly.
+On windows you can do this with [PuTTy](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html).
 Ensure PuTTy is opened with root privileges when running, you can then connect via serial.
 For linux users, the serial port is likely `/dev/ttyACM0`, for Windows you can check your device manager.
-Once you are connected, press `ENTER` to receive output from the program, afterwards follow the onscreen instructions.
+Open up PuTTy and connect via Serial with a baudrate of 9600.
+You will need to find the port name in the device manager, the name is going to be `COMX` where is `X` will be some number, i.e. `COM3`.
+Once you are connected, press the reset button on the mbed to start the program and receive output.
