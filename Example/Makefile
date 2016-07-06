@@ -2,16 +2,17 @@
 # see http://mbed.org/handbook/Exporting-to-GCC-ARM-Embedded
 
 GCC_BIN =
-PROJECT = CcsTestTool
-OBJECTS = ./src/MainLoop.o ./src/TestAssertions.o ./src/TestSuite.o
-SYS_OBJECTS = ./mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/cmsis_nvic.o ./mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/system_LPC17xx.o ./mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/startup_LPC17xx.o ./mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/board.o ./mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/retarget.o
-INCLUDE_PATHS = -I. -I./include -I./include/test-cases -I./mbed -I./mbed/TARGET_LPC1768 -I./mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM -I./mbed/TARGET_LPC1768/TARGET_NXP -I./mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X -I./mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X/TARGET_MBED_LPC1768
-LIBRARY_PATHS = -L./mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM
+PROJECT = Example
+OBJECTS =  ./Example.o
+INCLUDE_PATHS = -I./test-cases
+SYS_OBJECTS = ../EmVer/src/TestSuite.o ../EmVer/src/EmVer.o ../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/cmsis_nvic.o ../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/system_LPC17xx.o ../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/startup_LPC17xx.o ../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/board.o ../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/retarget.o
+LIB_INCLUDE_PATHS = -I../EmVer/include -I../mbed -I../mbed/TARGET_LPC1768 -I../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM -I../mbed/TARGET_LPC1768/TARGET_NXP -I../mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X -I../mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X/TARGET_MBED_LPC1768
+LIBRARY_PATHS = -L../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM
 LIBRARIES = -lmbed
-LINKER_SCRIPT = ./mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/LPC1768.ld
+LINKER_SCRIPT = ../mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/LPC1768.ld
 
 ###############################################################################
-AS      = $(GCC_BIN)arm-none-eabi-as
+AS      = $(	GCC_BIN)arm-none-eabi-as
 CC      = $(GCC_BIN)arm-none-eabi-gcc
 CPP     = $(GCC_BIN)arm-none-eabi-g++
 LD      = $(GCC_BIN)arm-none-eabi-gcc
@@ -40,10 +41,10 @@ clean:
 	$(AS) $(CPU) -o $@ $<
 
 .c.o:
-	$(CC)  $(CC_FLAGS) $(CC_SYMBOLS) -std=gnu99   $(INCLUDE_PATHS) -o $@ $<
+	$(CC)  $(CC_FLAGS) $(CC_SYMBOLS) -std=gnu99   $(INCLUDE_PATHS) $(LIB_INCLUDE_PATHS) -o $@ $<
 
 .cpp.o:
-	$(CPP) $(CC_FLAGS) $(CC_SYMBOLS) -std=c++11 $(INCLUDE_PATHS) -o $@ $<
+	$(CPP) $(CC_FLAGS) $(CC_SYMBOLS) -std=c++11 $(INCLUDE_PATHS) $(LIB_INCLUDE_PATHS) -o $@ $<
 
 
 $(PROJECT).elf: $(OBJECTS) $(SYS_OBJECTS)

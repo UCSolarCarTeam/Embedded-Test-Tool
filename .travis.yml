@@ -3,8 +3,10 @@ before_install:
     - sudo apt-get update -qq
 
 install:
+    - sudo apt-get install libgd2-xpm:i386 libgphoto2-2:i386 libsane:i386 ia32-libs-multiarch
     - sudo apt-get install -qq g++-4.8
     - export CXX="g++-4.8"
+    - cd EmVer
     - git clone https://github.com/google/googletest.git
     - cd googletest
     - sudo cp -r googletest/include/gtest /usr/local/include
@@ -14,10 +16,17 @@ install:
     - ar -rv libgmock.a gtest-all.o gmock-all.o
     - cp libgmock.a ../test/
     - cd ..
+    - git clone https://github.com/adamgreen/gcc4mbed
+    - cd gcc4mbed
+    - chmod +x linux_install
+    - sed -i '108d;109d;110d;134d' linux_install # Remove 'press any key to continue' and building samples
+    - ./linux_install
+    - cd ..
 
-before-install:
-    - chmod +x makeall.sh
+before_script:
+    - export PATH=$PATH:$PWD/gcc4mbed/gcc-arm-none-eabi/bin/
+    - chmod +x emverTest.sh
 
-script: sudo bash ./makeall.sh test
+script: ./emverTest.sh
 
 language: cpp

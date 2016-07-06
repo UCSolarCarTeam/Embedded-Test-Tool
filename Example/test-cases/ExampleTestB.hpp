@@ -1,6 +1,6 @@
 #include "TestCase.hpp"
 
-class DummyTestB : public TestCase
+class ExampleTestB : public TestCase
 {
 public:
     std::string run() const
@@ -8,9 +8,9 @@ public:
         return " ";
     }
 
-    std::string getTestName() const
+    std::string name() const
     {
-        return "DummyTestB";
+        return "ExampleTestB";
     }
 
 };
