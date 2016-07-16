@@ -1,4 +1,5 @@
 #include "EmVer.hpp"
+#include "EmVerWriter.hpp"
 #include "TestSuite.hpp"
 
 #include "ExampleTestA.hpp"
@@ -6,11 +7,12 @@
 
 int main()
 {
-	ExampleTestA A;
-	ExampleTestB B;
-	TestSuite exampleSuite({&A, &B}, "Example");
+    ExampleTestA A;
+    ExampleTestB B;
+    TestSuite exampleSuite({&A, &B}, "Example");
 
-	std::vector<TestSuite> tests {exampleSuite};
-	EmVer e(tests);
-	e.start();
+    std::vector<TestSuite> tests {exampleSuite};
+    EmVerWriter writer = EmVerWriter();
+    EmVer e(tests, writer);
+    e.start();
 }
