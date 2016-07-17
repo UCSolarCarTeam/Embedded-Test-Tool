@@ -1,16 +1,19 @@
 #pragma once
 
-#include "TestSuite.hpp"
+#include <memory>
+
+#include "I_TestSuite.hpp"
 
 class I_EmVerWriter;
 
 class EmVer
 {
 public:
-    EmVer(const std::vector<TestSuite>& testSuites, I_EmVerWriter& writer);
+    EmVer(std::vector<std::shared_ptr<I_TestSuite>>& testSuites, I_EmVerWriter& writer);
     void start();
 
 private:
-    std::vector<TestSuite> testSuites_;
+    std::string indentMessage(const std::string& s);
+    std::vector<std::shared_ptr<I_TestSuite>> testSuites_;
     I_EmVerWriter& writer_;
 };
