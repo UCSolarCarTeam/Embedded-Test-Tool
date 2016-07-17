@@ -1,4 +1,4 @@
-OBJS = $(wildcard src/*.cpp) ../src/TestSuite.cpp
+OBJS = $(wildcard src/*.cpp) ../src/TestSuite.cpp ../src/EmVer.cpp
 
 COMPILE_FLAGS = -g -std=c++11 -Werror
 

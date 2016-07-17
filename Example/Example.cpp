@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "EmVer.hpp"
 #include "EmVerWriter.hpp"
 #include "TestSuite.hpp"
@@ -9,10 +11,10 @@ int main()
 {
     ExampleTestA A;
     ExampleTestB B;
-    TestSuite exampleSuite({&A, &B}, "Example");
+    std::shared_ptr<TestSuite> exampleSuite(new TestSuite({&A, &B}, "Example"));
 
-    std::vector<TestSuite> tests {exampleSuite};
-    EmVerWriter writer = EmVerWriter();
+    std::vector<std::shared_ptr<I_TestSuite>> tests {exampleSuite};
+    EmVerWriter writer;
     EmVer e(tests, writer);
     e.start();
 }

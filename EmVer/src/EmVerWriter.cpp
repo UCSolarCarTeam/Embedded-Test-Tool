@@ -13,7 +13,6 @@ EmVerWriter::EmVerWriter()
 EmVerWriter::~EmVerWriter()
 {
     fclose(fp_);
-    delete pc_;
 }
 
 void EmVerWriter::print(std::string msg)
