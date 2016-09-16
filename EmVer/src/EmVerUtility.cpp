@@ -4,49 +4,53 @@
 
 #include "EmVerUtility.hpp"
 
-bool assertPin(PinName pinName, bool expect, int timeout) { // timeout in ms
+bool assertPin(PinName pinName, bool expectedState, int timeoutMs)
+{
     Timer t;
     DigitalIn pin(pinName);
     t.start();
-    while(t.read_ms() < timeout) {
-        if(pin == expect) {
+    while(t.read_ms() < timeoutMs)
+    {
+        if(pin == expectedState)
+        {
             return true;
         }
     }
     return false;
 }
 
-bool assertPinToggle(PinName pinName, unsigned int expectOccurences, int timeout) { // timeout in ms
+bool assertPinToggle(PinName pinName, unsigned int expectedOccurrences, int timeoutMs)
+{
     Timer t;
     DigitalIn pin(pinName);
     t.start();
     bool prevStatus = pin;
-    unsigned int occurences = 0;
-    while(t.read_ms() < timeout) {
-        if(pin != prevStatus) {
+    unsigned int occurrences = 0;
+    while(t.read_ms() < timeoutMs)
+    {
+        if(pin != prevStatus)
+        {
             prevStatus = pin;
-            occurences++;
+            occurrences++;
         }
     }
-    return occurences == expectOccurences;
+    return occurrences == expectedOccurrences;
 }
 
-bool assertCan(PinName p1, PinName p2, unsigned int expectId, const int* expectData, const int expectLen, int timeout) { // timeout in ms
+bool assertCan(CAN& can, unsigned int expectedId, const int* expectedData, const int expectedLen, int timeoutMs)
+{
     Timer t;
     CANMessage msg;
-    CAN can(p1, p2);
     t.start();
-    while(t.read_ms() < timeout) {
-        if(can.read(msg) && msg.id == expectId) {
-            if(expectLen != msg.len) {
+    while(t.read_ms() < timeoutMs)
+    {
+        if(can.read(msg) && msg.id == expectedId)
+        {
+            if(expectedLen != msg.len)
+            {
                 return false;
             }
-            for(int i = 0; i < msg.len; i++) {
-                if(msg.data[i] != expectData[i]) {
-                    return false;
-                }
-            }
-            return true;
+            return std::memcmp(msg.data, expectedData, msg.len);
         }
     }
     return false;
