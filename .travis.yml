@@ -1,16 +1,22 @@
+sudo: required
+
 before_install:
-    - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-    - sudo apt-get update -qq
+    - add-apt-repository -y ppa:ubuntu-toolchain-r/test
+    - apt-get update -qq
 
 install:
-    - sudo apt-get install libgd2-xpm:i386 libgphoto2-2:i386 libsane:i386 ia32-libs-multiarch
-    - sudo apt-get install -qq g++-4.8
+    - wget 'https://sourceforge.net/projects/astyle/files/latest/download'
+    - tar -zxvf download
+    - (cd astyle/build/gcc && make release && sudo make install)
+    - rm astyle -rf
+    - apt-get install libgd2-xpm:i386 libgphoto2-2:i386 libsane:i386 ia32-libs-multiarch
+    - apt-get install -qq g++-4.8
     - export CXX="g++-4.8"
     - cd EmVer
     - git clone https://github.com/google/googletest.git
     - cd googletest
-    - sudo cp -r googletest/include/gtest /usr/local/include
-    - sudo cp -r googlemock/include/gmock /usr/local/include
+    - cp -r googletest/include/gtest /usr/local/include
+    - cp -r googlemock/include/gmock /usr/local/include
     - g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igooglemock -pthread -c googlemock/src/gmock-all.cc
     - g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igooglemock -pthread -c googletest/src/gtest-all.cc
     - ar -rv libgmock.a gtest-all.o gmock-all.o
@@ -27,6 +33,8 @@ before_script:
     - export PATH=$PATH:$PWD/gcc4mbed/gcc-arm-none-eabi/bin/
     - chmod +x emverTest.sh
 
-script: ./emverTest.sh
+script:
+    - ./emverTest.sh
+    - "! (astyle *.h *.c -r --dry-run --options=astylerc | grep Formatted)"
 
 language: cpp
