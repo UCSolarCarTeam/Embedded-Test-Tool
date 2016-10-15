@@ -18,34 +18,36 @@
 
 #include "us_ticker_api.h"
 
-namespace mbed {
+namespace mbed
+{
 
-/** Base abstraction for timer interrupts
-*/
-class TimerEvent {
-public:
-    TimerEvent();
+    /** Base abstraction for timer interrupts
+    */
+    class TimerEvent
+    {
+    public:
+        TimerEvent();
 
-    /** The handler registered with the underlying timer interrupt
-     */
-    static void irq(uint32_t id);
+        /** The handler registered with the underlying timer interrupt
+         */
+        static void irq(uint32_t id);
 
-    /** Destruction removes it...
-     */
-    virtual ~TimerEvent();
+        /** Destruction removes it...
+         */
+        virtual ~TimerEvent();
 
-protected:
-    // The handler called to service the timer event of the derived class
-    virtual void handler() = 0;
+    protected:
+        // The handler called to service the timer event of the derived class
+        virtual void handler() = 0;
 
-    // insert in to linked list
-    void insert(timestamp_t timestamp);
+        // insert in to linked list
+        void insert(timestamp_t timestamp);
 
-    // remove from linked list, if in it
-    void remove();
+        // remove from linked list, if in it
+        void remove();
 
-    ticker_event_t event;
-};
+        ticker_event_t event;
+    };
 
 } // namespace mbed
 

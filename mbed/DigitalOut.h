@@ -19,87 +19,96 @@
 #include "platform.h"
 #include "gpio_api.h"
 
-namespace mbed {
+namespace mbed
+{
 
-/** A digital output, used for setting the state of a pin
- *
- * Example:
- * @code
- * // Toggle a LED
- * #include "mbed.h"
- *
- * DigitalOut led(LED1);
- *
- * int main() {
- *     while(1) {
- *         led = !led;
- *         wait(0.2);
- *     }
- * }
- * @endcode
- */
-class DigitalOut {
-
-public:
-    /** Create a DigitalOut connected to the specified pin
+    /** A digital output, used for setting the state of a pin
      *
-     *  @param pin DigitalOut pin to connect to
-     */
-    DigitalOut(PinName pin) : gpio() {
-        gpio_init_out(&gpio, pin);
-    }
-
-    /** Create a DigitalOut connected to the specified pin
+     * Example:
+     * @code
+     * // Toggle a LED
+     * #include "mbed.h"
      *
-     *  @param pin DigitalOut pin to connect to
-     *  @param value the initial pin value
-     */
-    DigitalOut(PinName pin, int value) : gpio() {
-        gpio_init_out_ex(&gpio, pin, value);
-    }
-
-    /** Set the output, specified as 0 or 1 (int)
+     * DigitalOut led(LED1);
      *
-     *  @param value An integer specifying the pin output value,
-     *      0 for logical 0, 1 (or any other non-zero value) for logical 1
+     * int main() {
+     *     while(1) {
+     *         led = !led;
+     *         wait(0.2);
+     *     }
+     * }
+     * @endcode
      */
-    void write(int value) {
-        gpio_write(&gpio, value);
-    }
+    class DigitalOut
+    {
 
-    /** Return the output setting, represented as 0 or 1 (int)
-     *
-     *  @returns
-     *    an integer representing the output setting of the pin,
-     *    0 for logical 0, 1 for logical 1
-     */
-    int read() {
-        return gpio_read(&gpio);
-    }
+    public:
+        /** Create a DigitalOut connected to the specified pin
+         *
+         *  @param pin DigitalOut pin to connect to
+         */
+        DigitalOut(PinName pin) : gpio()
+        {
+            gpio_init_out(&gpio, pin);
+        }
+
+        /** Create a DigitalOut connected to the specified pin
+         *
+         *  @param pin DigitalOut pin to connect to
+         *  @param value the initial pin value
+         */
+        DigitalOut(PinName pin, int value) : gpio()
+        {
+            gpio_init_out_ex(&gpio, pin, value);
+        }
+
+        /** Set the output, specified as 0 or 1 (int)
+         *
+         *  @param value An integer specifying the pin output value,
+         *      0 for logical 0, 1 (or any other non-zero value) for logical 1
+         */
+        void write(int value)
+        {
+            gpio_write(&gpio, value);
+        }
+
+        /** Return the output setting, represented as 0 or 1 (int)
+         *
+         *  @returns
+         *    an integer representing the output setting of the pin,
+         *    0 for logical 0, 1 for logical 1
+         */
+        int read()
+        {
+            return gpio_read(&gpio);
+        }
 
 #ifdef MBED_OPERATORS
-    /** A shorthand for write()
-     */
-    DigitalOut& operator= (int value) {
-        write(value);
-        return *this;
-    }
+        /** A shorthand for write()
+         */
+        DigitalOut& operator= (int value)
+        {
+            write(value);
+            return *this;
+        }
 
-    DigitalOut& operator= (DigitalOut& rhs) {
-        write(rhs.read());
-        return *this;
-    }
+        DigitalOut& operator= (DigitalOut& rhs)
+        {
+            write(rhs.read());
+            return *this;
+        }
 
-    /** A shorthand for read()
-     */
-    operator int() {
-        return read();
-    }
+        /** A shorthand for read()
+         */
+        operator int()
+        {
+            return read();
+        }
 #endif
 
-protected:
-    gpio_t gpio;
-};
+    protected:
+        gpio_t gpio;
+    };
 
 } // namespace mbed
 

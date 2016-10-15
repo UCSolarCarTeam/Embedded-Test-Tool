@@ -5,8 +5,8 @@
 
 
 TestSuite::TestSuite(std::vector<TestCase*> testCases, std::string name)
-: testCases_(testCases)
-, name_(name)
+    : testCases_(testCases)
+    , name_(name)
 {}
 
 int TestSuite::totalTestCases() const
@@ -21,7 +21,7 @@ std::string TestSuite::name() const
 
 std::string TestSuite::testCaseName(unsigned int i) const
 {
-    if(i >= testCases_.size())
+    if (i >= testCases_.size())
     {
         std::ostringstream outOfRangeStream;
         outOfRangeStream << "testCaseName index out of range : " << i << "\n"
@@ -36,7 +36,7 @@ std::string TestSuite::testCaseName(unsigned int i) const
 
 std::string TestSuite::runTestCase(unsigned int i) const
 {
-    if(i >= testCases_.size())
+    if (i >= testCases_.size())
     {
         std::ostringstream outOfRangeStream;
         outOfRangeStream << "runTest index out of range : " << i << "\n"

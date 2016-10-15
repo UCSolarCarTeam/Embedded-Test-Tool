@@ -21,25 +21,27 @@
 #include "FileSystemLike.h"
 #include "FileLike.h"
 
-namespace mbed {
+namespace mbed
+{
 
-class FilePath {
-public:
-    FilePath(const char* file_path);
+    class FilePath
+    {
+    public:
+        FilePath(const char* file_path);
 
-    const char* fileName(void);
+        const char* fileName(void);
 
-    bool          isFileSystem(void);
-    FileSystemLike* fileSystem(void);
+        bool          isFileSystem(void);
+        FileSystemLike* fileSystem(void);
 
-    bool    isFile(void);
-    FileLike* file(void);
-    bool    exists(void);
+        bool    isFile(void);
+        FileLike* file(void);
+        bool    exists(void);
 
-private:
-    const char* file_name;
-    FileBase* fb;
-};
+    private:
+        const char* file_name;
+        FileBase* fb;
+    };
 
 } // namespace mbed
 

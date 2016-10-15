@@ -26,79 +26,85 @@ typedef int mode_t;
 
 #include "FileHandle.h"
 
-struct dirent {
-    char d_name[NAME_MAX+1];
+struct dirent
+{
+    char d_name[NAME_MAX + 1];
 };
 
-namespace mbed {
+namespace mbed
+{
 
-/** Represents a directory stream. Objects of this type are returned
- *  by a FileSystemLike's opendir method. Implementations must define
- *  at least closedir, readdir and rewinddir.
- *
- *  If a FileSystemLike class defines the opendir method, then the
- *  directories of an object of that type can be accessed by
- *  DIR *d = opendir("/example/directory") (or opendir("/example")
- *  to open the root of the filesystem), and then using readdir(d) etc.
- *
- *  The root directory is considered to contain all FileLike and
- *  FileSystemLike objects, so the DIR* returned by opendir("/") will
- *  reflect this.
- */
-class DirHandle {
-
-public:
-    /** Closes the directory.
+    /** Represents a directory stream. Objects of this type are returned
+     *  by a FileSystemLike's opendir method. Implementations must define
+     *  at least closedir, readdir and rewinddir.
      *
-     *  @returns
-     *    0 on success,
-     *   -1 on error.
-     */
-    virtual int closedir()=0;
-
-    /** Return the directory entry at the current position, and
-     *  advances the position to the next entry.
+     *  If a FileSystemLike class defines the opendir method, then the
+     *  directories of an object of that type can be accessed by
+     *  DIR *d = opendir("/example/directory") (or opendir("/example")
+     *  to open the root of the filesystem), and then using readdir(d) etc.
      *
-     * @returns
-     *  A pointer to a dirent structure representing the
-     *  directory entry at the current position, or NULL on reaching
-     *  end of directory or error.
+     *  The root directory is considered to contain all FileLike and
+     *  FileSystemLike objects, so the DIR* returned by opendir("/") will
+     *  reflect this.
      */
-    virtual struct dirent *readdir()=0;
+    class DirHandle
+    {
 
-    /** Resets the position to the beginning of the directory.
-     */
-    virtual void rewinddir()=0;
+    public:
+        /** Closes the directory.
+         *
+         *  @returns
+         *    0 on success,
+         *   -1 on error.
+         */
+        virtual int closedir() = 0;
 
-    /** Returns the current position of the DirHandle.
-     *
-     * @returns
-     *   the current position,
-     *  -1 on error.
-     */
-    virtual off_t telldir() { return -1; }
+        /** Return the directory entry at the current position, and
+         *  advances the position to the next entry.
+         *
+         * @returns
+         *  A pointer to a dirent structure representing the
+         *  directory entry at the current position, or NULL on reaching
+         *  end of directory or error.
+         */
+        virtual struct dirent* readdir() = 0;
 
-    /** Sets the position of the DirHandle.
-     *
-     *  @param location The location to seek to. Must be a value returned by telldir.
-     */
-    virtual void seekdir(off_t location) { }
+        /** Resets the position to the beginning of the directory.
+         */
+        virtual void rewinddir() = 0;
 
-    virtual ~DirHandle() {}
-};
+        /** Returns the current position of the DirHandle.
+         *
+         * @returns
+         *   the current position,
+         *  -1 on error.
+         */
+        virtual off_t telldir()
+        {
+            return -1;
+        }
+
+        /** Sets the position of the DirHandle.
+         *
+         *  @param location The location to seek to. Must be a value returned by telldir.
+         */
+        virtual void seekdir(off_t location) { }
+
+        virtual ~DirHandle() {}
+    };
 
 } // namespace mbed
 
 typedef mbed::DirHandle DIR;
 
 extern "C" {
-    DIR *opendir(const char*);
-    struct dirent *readdir(DIR *);
+    DIR* opendir(const char*);
+    struct dirent* readdir(DIR*);
     int closedir(DIR*);
     void rewinddir(DIR*);
     long telldir(DIR*);
     void seekdir(DIR*, long);
-    int mkdir(const char *name, mode_t n);
+    int mkdir(const char* name, mode_t n);
 };
 
 #endif /* MBED_DIRHANDLE_H */

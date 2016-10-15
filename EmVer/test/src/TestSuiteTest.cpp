@@ -19,12 +19,11 @@ protected:
     virtual void SetUp()
     {
         ON_CALL(firstMockTestCase_, name())
-            .WillByDefault(Return("FirstTestCase"));
+        .WillByDefault(Return("FirstTestCase"));
     }
 
     virtual void TearDown()
     {
-
     }
 };
 
@@ -41,7 +40,7 @@ TEST_F(TestSuiteTest, failString)
     auto testSuite = TestSuite({&firstMockTestCase_}, "_");
     std::string expected = "FAILURE\nPASSED";
     EXPECT_CALL(firstMockTestCase_, run())
-        .WillOnce(Return(expected));
+    .WillOnce(Return(expected));
     std::string actual = testSuite.runTestCase(0);
     EXPECT_EQ(expected, actual);
 }
@@ -50,22 +49,20 @@ TEST_F(TestSuiteTest, failString)
 TEST_F(TestSuiteTest, manyTests)
 {
     EXPECT_CALL(firstMockTestCase_, run())
-        .WillOnce(Return(" "));
-
+    .WillOnce(Return(" "));
     NiceMock<MockTestCase> secondMockTestCase;
     EXPECT_CALL(secondMockTestCase, run())
-        .WillOnce(Return("FAILURE"));
+    .WillOnce(Return("FAILURE"));
     ON_CALL(secondMockTestCase, name())
-        .WillByDefault(Return("SecondTestCase"));
-
+    .WillByDefault(Return("SecondTestCase"));
     NiceMock<MockTestCase> thirdMockTestCase;
     EXPECT_CALL(thirdMockTestCase, run())
-        .WillOnce(Return(" "));
+    .WillOnce(Return(" "));
     ON_CALL(thirdMockTestCase, name())
-        .WillByDefault(Return("ThirdTestCase"));
-
+    .WillByDefault(Return("ThirdTestCase"));
     auto testSuite = TestSuite({&firstMockTestCase_, &secondMockTestCase, &thirdMockTestCase}, "_");
-    for(int i = 0; i < testSuite.totalTestCases(); i++)
+
+    for (int i = 0; i < testSuite.totalTestCases(); i++)
     {
         testSuite.runTestCase(i);
     }
@@ -74,7 +71,6 @@ TEST_F(TestSuiteTest, manyTests)
 TEST_F(TestSuiteTest, outOfBoundName)
 {
     auto testSuite = TestSuite({&firstMockTestCase_}, "_");
-
     auto expected = "testCaseName index out of range : 1\n1 existing test cases";
     auto actual = testSuite.testCaseName(1);
     EXPECT_EQ(expected, actual);
@@ -83,7 +79,6 @@ TEST_F(TestSuiteTest, outOfBoundName)
 TEST_F(TestSuiteTest, outOfBoundRun)
 {
     auto testSuite = TestSuite({&firstMockTestCase_}, "_");
-
     auto expected = "runTest index out of range : 1\n1 existing test cases";
     auto actual = testSuite.runTestCase(1);
     EXPECT_EQ(expected, actual);

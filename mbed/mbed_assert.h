@@ -29,7 +29,7 @@ extern "C" {
  *  @param file File where assertation failed.
  *  @param line Failing assertation line number.
  */
-void mbed_assert_internal(const char *expr, const char *file, int line);
+void mbed_assert_internal(const char* expr, const char* file, int line);
 
 #ifdef __cplusplus
 }

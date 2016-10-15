@@ -24,43 +24,45 @@
 #include "SerialBase.h"
 #include "serial_api.h"
 
-namespace mbed {
+namespace mbed
+{
 
-/** A serial port (UART) for communication with other serial devices
- *
- * Can be used for Full Duplex communication, or Simplex by specifying
- * one pin as NC (Not Connected)
- *
- * Example:
- * @code
- * // Print "Hello World" to the PC
- *
- * #include "mbed.h"
- *
- * Serial pc(USBTX, USBRX);
- *
- * int main() {
- *     pc.printf("Hello World\n");
- * }
- * @endcode
- */
-class Serial : public SerialBase, public Stream {
-
-public:
-    /** Create a Serial port, connected to the specified transmit and receive pins
+    /** A serial port (UART) for communication with other serial devices
      *
-     *  @param tx Transmit pin
-     *  @param rx Receive pin
+     * Can be used for Full Duplex communication, or Simplex by specifying
+     * one pin as NC (Not Connected)
      *
-     *  @note
-     *    Either tx or rx may be specified as NC if unused
+     * Example:
+     * @code
+     * // Print "Hello World" to the PC
+     *
+     * #include "mbed.h"
+     *
+     * Serial pc(USBTX, USBRX);
+     *
+     * int main() {
+     *     pc.printf("Hello World\n");
+     * }
+     * @endcode
      */
-    Serial(PinName tx, PinName rx, const char *name=NULL);
+    class Serial : public SerialBase, public Stream
+    {
 
-protected:
-    virtual int _getc();
-    virtual int _putc(int c);
-};
+    public:
+        /** Create a Serial port, connected to the specified transmit and receive pins
+         *
+         *  @param tx Transmit pin
+         *  @param rx Receive pin
+         *
+         *  @note
+         *    Either tx or rx may be specified as NC if unused
+         */
+        Serial(PinName tx, PinName rx, const char* name = NULL);
+
+    protected:
+        virtual int _getc();
+        virtual int _putc(int c);
+    };
 
 } // namespace mbed
 

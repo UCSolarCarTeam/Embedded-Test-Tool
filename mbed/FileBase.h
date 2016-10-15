@@ -42,38 +42,41 @@ typedef long off_t;
 
 #include "platform.h"
 
-namespace mbed {
+namespace mbed
+{
 
-typedef enum {
-    FilePathType,
-    FileSystemPathType
-} PathType;
+    typedef enum
+    {
+        FilePathType,
+        FileSystemPathType
+    } PathType;
 
-class FileBase {
-public:
-    FileBase(const char *name, PathType t);
+    class FileBase
+    {
+    public:
+        FileBase(const char* name, PathType t);
 
-    virtual ~FileBase();
+        virtual ~FileBase();
 
-    const char* getName(void);
-    PathType    getPathType(void);
+        const char* getName(void);
+        PathType    getPathType(void);
 
-    static FileBase *lookup(const char *name, unsigned int len);
+        static FileBase* lookup(const char* name, unsigned int len);
 
-    static FileBase *get(int n);
+        static FileBase* get(int n);
 
-protected:
-    static FileBase *_head;
+    protected:
+        static FileBase* _head;
 
-    FileBase   *_next;
-    const char *_name;
-    PathType    _path_type;
+        FileBase*   _next;
+        const char* _name;
+        PathType    _path_type;
 
-    /* disallow copy constructor and assignment operators */
-private:
-    FileBase(const FileBase&);
-    FileBase & operator = (const FileBase&);
-};
+        /* disallow copy constructor and assignment operators */
+    private:
+        FileBase(const FileBase&);
+        FileBase& operator = (const FileBase&);
+    };
 
 } // namespace mbed
 

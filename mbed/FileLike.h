@@ -19,25 +19,27 @@
 #include "FileBase.h"
 #include "FileHandle.h"
 
-namespace mbed {
+namespace mbed
+{
 
-/* Class FileLike
- *  A file-like object is one that can be opened with fopen by
- *  fopen("/name", mode). It is intersection of the classes Base and
- *  FileHandle.
- */
-class FileLike : public FileHandle, public FileBase {
-
-public:
-    /* Constructor FileLike
-     *
-     * Variables
-     *  name - The name to use to open the file.
+    /* Class FileLike
+     *  A file-like object is one that can be opened with fopen by
+     *  fopen("/name", mode). It is intersection of the classes Base and
+     *  FileHandle.
      */
-    FileLike(const char *name);
+    class FileLike : public FileHandle, public FileBase
+    {
 
-    virtual ~FileLike();
-};
+    public:
+        /* Constructor FileLike
+         *
+         * Variables
+         *  name - The name to use to open the file.
+         */
+        FileLike(const char* name);
+
+        virtual ~FileLike();
+    };
 
 } // namespace mbed
 

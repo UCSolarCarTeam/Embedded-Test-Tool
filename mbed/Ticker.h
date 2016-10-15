@@ -19,103 +19,110 @@
 #include "TimerEvent.h"
 #include "FunctionPointer.h"
 
-namespace mbed {
+namespace mbed
+{
 
-/** A Ticker is used to call a function at a recurring interval
- *
- *  You can use as many seperate Ticker objects as you require.
- *
- * Example:
- * @code
- * // Toggle the blinking led after 5 seconds
- *
- * #include "mbed.h"
- *
- * Ticker timer;
- * DigitalOut led1(LED1);
- * DigitalOut led2(LED2);
- *
- * int flip = 0;
- *
- * void attime() {
- *     flip = !flip;
- * }
- *
- * int main() {
- *     timer.attach(&attime, 5);
- *     while(1) {
- *         if(flip == 0) {
- *             led1 = !led1;
- *         } else {
- *             led2 = !led2;
- *         }
- *         wait(0.2);
- *     }
- * }
- * @endcode
- */
-class Ticker : public TimerEvent {
-
-public:
-
-    /** Attach a function to be called by the Ticker, specifiying the interval in seconds
+    /** A Ticker is used to call a function at a recurring interval
      *
-     *  @param fptr pointer to the function to be called
-     *  @param t the time between calls in seconds
-     */
-    void attach(void (*fptr)(void), float t) {
-        attach_us(fptr, t * 1000000.0f);
-    }
-
-    /** Attach a member function to be called by the Ticker, specifiying the interval in seconds
+     *  You can use as many seperate Ticker objects as you require.
      *
-     *  @param tptr pointer to the object to call the member function on
-     *  @param mptr pointer to the member function to be called
-     *  @param t the time between calls in seconds
-     */
-    template<typename T>
-    void attach(T* tptr, void (T::*mptr)(void), float t) {
-        attach_us(tptr, mptr, t * 1000000.0f);
-    }
-
-    /** Attach a function to be called by the Ticker, specifiying the interval in micro-seconds
+     * Example:
+     * @code
+     * // Toggle the blinking led after 5 seconds
      *
-     *  @param fptr pointer to the function to be called
-     *  @param t the time between calls in micro-seconds
-     */
-    void attach_us(void (*fptr)(void), timestamp_t t) {
-        _function.attach(fptr);
-        setup(t);
-    }
-
-    /** Attach a member function to be called by the Ticker, specifiying the interval in micro-seconds
+     * #include "mbed.h"
      *
-     *  @param tptr pointer to the object to call the member function on
-     *  @param mptr pointer to the member function to be called
-     *  @param t the time between calls in micro-seconds
+     * Ticker timer;
+     * DigitalOut led1(LED1);
+     * DigitalOut led2(LED2);
+     *
+     * int flip = 0;
+     *
+     * void attime() {
+     *     flip = !flip;
+     * }
+     *
+     * int main() {
+     *     timer.attach(&attime, 5);
+     *     while(1) {
+     *         if(flip == 0) {
+     *             led1 = !led1;
+     *         } else {
+     *             led2 = !led2;
+     *         }
+     *         wait(0.2);
+     *     }
+     * }
+     * @endcode
      */
-    template<typename T>
-    void attach_us(T* tptr, void (T::*mptr)(void), timestamp_t t) {
-        _function.attach(tptr, mptr);
-        setup(t);
-    }
+    class Ticker : public TimerEvent
+    {
 
-    virtual ~Ticker() {
-        detach();
-    }
+    public:
 
-    /** Detach the function
-     */
-    void detach();
+        /** Attach a function to be called by the Ticker, specifiying the interval in seconds
+         *
+         *  @param fptr pointer to the function to be called
+         *  @param t the time between calls in seconds
+         */
+        void attach(void (*fptr)(void), float t)
+        {
+            attach_us(fptr, t * 1000000.0f);
+        }
 
-protected:
-    void setup(timestamp_t t);
-    virtual void handler();
+        /** Attach a member function to be called by the Ticker, specifiying the interval in seconds
+         *
+         *  @param tptr pointer to the object to call the member function on
+         *  @param mptr pointer to the member function to be called
+         *  @param t the time between calls in seconds
+         */
+        template<typename T>
+        void attach(T* tptr, void (T::*mptr)(void), float t)
+        {
+            attach_us(tptr, mptr, t * 1000000.0f);
+        }
 
-protected:
-    timestamp_t     _delay;     /**< Time delay (in microseconds) for re-setting the multi-shot callback. */
-    FunctionPointer _function;  /**< Callback. */
-};
+        /** Attach a function to be called by the Ticker, specifiying the interval in micro-seconds
+         *
+         *  @param fptr pointer to the function to be called
+         *  @param t the time between calls in micro-seconds
+         */
+        void attach_us(void (*fptr)(void), timestamp_t t)
+        {
+            _function.attach(fptr);
+            setup(t);
+        }
+
+        /** Attach a member function to be called by the Ticker, specifiying the interval in micro-seconds
+         *
+         *  @param tptr pointer to the object to call the member function on
+         *  @param mptr pointer to the member function to be called
+         *  @param t the time between calls in micro-seconds
+         */
+        template<typename T>
+        void attach_us(T* tptr, void (T::*mptr)(void), timestamp_t t)
+        {
+            _function.attach(tptr, mptr);
+            setup(t);
+        }
+
+        virtual ~Ticker()
+        {
+            detach();
+        }
+
+        /** Detach the function
+         */
+        void detach();
+
+    protected:
+        void setup(timestamp_t t);
+        virtual void handler();
+
+    protected:
+        timestamp_t     _delay;     /**< Time delay (in microseconds) for re-setting the multi-shot callback. */
+        FunctionPointer _function;  /**< Callback. */
+    };
 
 } // namespace mbed
 

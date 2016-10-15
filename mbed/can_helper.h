@@ -22,20 +22,23 @@
 extern "C" {
 #endif
 
-enum CANFormat {
+enum CANFormat
+{
     CANStandard = 0,
     CANExtended = 1,
     CANAny = 2
 };
 typedef enum CANFormat CANFormat;
 
-enum CANType {
+enum CANType
+{
     CANData   = 0,
     CANRemote = 1
 };
 typedef enum CANType CANType;
 
-struct CAN_Message {
+struct CAN_Message
+{
     unsigned int   id;                 // 29 bit identifier
     unsigned char  data[8];            // Data field
     unsigned char  len;                // Length of data field in bytes
