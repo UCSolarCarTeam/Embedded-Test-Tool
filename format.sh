@@ -1,10 +1,4 @@
 #!/bin/bash -e
 
-if [ $# -eq 0 ]; then 
-	echo "Pass directory to format as argument"
-	echo "Example: ./format.sh EmVer"
-	exit 1
-fi
-
-astyle "$1/*.h" "$1/*.c" -r --options=astylerc
-find $1 -name "*.orig" -delete
+astyle "*.h" "*.cpp" -r --options=astylerc
+find -name "*.orig" -delete
