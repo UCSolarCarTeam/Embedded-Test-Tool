@@ -29,10 +29,11 @@ uint32_t us_ticker_read(void);
 typedef void (*ticker_event_handler)(uint32_t id);
 void us_ticker_set_handler(ticker_event_handler handler);
 
-typedef struct ticker_event_s {
+typedef struct ticker_event_s
+{
     timestamp_t            timestamp;
     uint32_t               id;
-    struct ticker_event_s *next;
+    struct ticker_event_s* next;
 } ticker_event_t;
 
 void us_ticker_init(void);
@@ -41,8 +42,8 @@ void us_ticker_disable_interrupt(void);
 void us_ticker_clear_interrupt(void);
 void us_ticker_irq_handler(void);
 
-void us_ticker_insert_event(ticker_event_t *obj, timestamp_t timestamp, uint32_t id);
-void us_ticker_remove_event(ticker_event_t *obj);
+void us_ticker_insert_event(ticker_event_t* obj, timestamp_t timestamp, uint32_t id);
+void us_ticker_remove_event(ticker_event_t* obj);
 
 #ifdef __cplusplus
 }

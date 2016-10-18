@@ -28,7 +28,8 @@ extern "C" {
 #ifndef __CC_ARM
 
 #if defined(__ICCARM__)
-inline int __semihost(int reason, const void *arg) {
+inline int __semihost(int reason, const void* arg)
+{
     return __semihosting(reason, (void*)arg);
 }
 #else
@@ -43,19 +44,18 @@ inline int __semihost(int reason, const void *arg) {
 #   define AngelSWIAsm          swi
 #endif
 
-static inline int __semihost(int reason, const void *arg) {
+static inline int __semihost(int reason, const void* arg)
+{
     int value;
-
     asm volatile (
-       "mov r0, %1"          "\n\t"
-       "mov r1, %2"          "\n\t"
-       AngelSWIInsn " %a3"   "\n\t"
-       "mov %0, r0"
-       : "=r" (value)                                         /* output operands             */
-       : "r" (reason), "r" (arg), "i" (AngelSWI)              /* input operands              */
-       : "r0", "r1", "r2", "r3", "ip", "lr", "memory", "cc"   /* list of clobbered registers */
+        "mov r0, %1"          "\n\t"
+        "mov r1, %2"          "\n\t"
+        AngelSWIInsn " %a3"   "\n\t"
+        "mov %0, r0"
+        : "=r" (value)                                         /* output operands             */
+        : "r" (reason), "r" (arg), "i" (AngelSWI)              /* input operands              */
+        : "r0", "r1", "r2", "r3", "ip", "lr", "memory", "cc"   /* list of clobbered registers */
     );
-
     return value;
 }
 #endif
@@ -71,11 +71,11 @@ long semihost_flen (FILEHANDLE fh);
 int semihost_seek  (FILEHANDLE fh, long position);
 int semihost_istty (FILEHANDLE fh);
 
-int semihost_remove(const char *name);
-int semihost_rename(const char *old_name, const char *new_name);
+int semihost_remove(const char* name);
+int semihost_rename(const char* old_name, const char* new_name);
 #endif
 
-int semihost_uid(char *uid);
+int semihost_uid(char* uid);
 int semihost_reset(void);
 int semihost_vbus(void);
 int semihost_powerdown(void);

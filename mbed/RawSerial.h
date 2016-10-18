@@ -23,65 +23,67 @@
 #include "SerialBase.h"
 #include "serial_api.h"
 
-namespace mbed {
+namespace mbed
+{
 
-/** A serial port (UART) for communication with other serial devices
- * This is a variation of the Serial class that doesn't use streams,
- * thus making it safe to use in interrupt handlers with the RTOS.
- *
- * Can be used for Full Duplex communication, or Simplex by specifying
- * one pin as NC (Not Connected)
- *
- * Example:
- * @code
- * // Send a char to the PC
- *
- * #include "mbed.h"
- *
- * RawSerial pc(USBTX, USBRX);
- *
- * int main() {
- *     pc.putc('A');
- * }
- * @endcode
- */
-class RawSerial: public SerialBase {
-
-public:
-    /** Create a RawSerial port, connected to the specified transmit and receive pins
+    /** A serial port (UART) for communication with other serial devices
+     * This is a variation of the Serial class that doesn't use streams,
+     * thus making it safe to use in interrupt handlers with the RTOS.
      *
-     *  @param tx Transmit pin
-     *  @param rx Receive pin
+     * Can be used for Full Duplex communication, or Simplex by specifying
+     * one pin as NC (Not Connected)
      *
-     *  @note
-     *    Either tx or rx may be specified as NC if unused
+     * Example:
+     * @code
+     * // Send a char to the PC
+     *
+     * #include "mbed.h"
+     *
+     * RawSerial pc(USBTX, USBRX);
+     *
+     * int main() {
+     *     pc.putc('A');
+     * }
+     * @endcode
      */
-    RawSerial(PinName tx, PinName rx);
+    class RawSerial: public SerialBase
+    {
 
-    /** Write a char to the serial port
-     *
-     * @param c The char to write
-     *
-     * @returns The written char or -1 if an error occured
-     */
-    int putc(int c);
+    public:
+        /** Create a RawSerial port, connected to the specified transmit and receive pins
+         *
+         *  @param tx Transmit pin
+         *  @param rx Receive pin
+         *
+         *  @note
+         *    Either tx or rx may be specified as NC if unused
+         */
+        RawSerial(PinName tx, PinName rx);
 
-    /** Read a char from the serial port
-     *
-     * @returns The char read from the serial port
-     */
-    int getc();
+        /** Write a char to the serial port
+         *
+         * @param c The char to write
+         *
+         * @returns The written char or -1 if an error occured
+         */
+        int putc(int c);
 
-    /** Write a string to the serial port
-     *
-     * @param str The string to write
-     *
-     * @returns 0 if the write succeeds, EOF for error
-     */
-    int puts(const char *str);
+        /** Read a char from the serial port
+         *
+         * @returns The char read from the serial port
+         */
+        int getc();
 
-    int printf(const char *format, ...);
-};
+        /** Write a string to the serial port
+         *
+         * @param str The string to write
+         *
+         * @returns 0 if the write succeeds, EOF for error
+         */
+        int puts(const char* str);
+
+        int printf(const char* format, ...);
+    };
 
 } // namespace mbed
 

@@ -9,13 +9,15 @@ bool assertPin(PinName pinName, bool expectedState, int timeoutMs)
     Timer t;
     DigitalIn pin(pinName);
     t.start();
-    while(t.read_ms() < timeoutMs)
+
+    while (t.read_ms() < timeoutMs)
     {
-        if(pin == expectedState)
+        if (pin == expectedState)
         {
             return true;
         }
     }
+
     return false;
 }
 
@@ -26,14 +28,16 @@ bool assertPinToggle(PinName pinName, unsigned int expectedOccurrences, int time
     t.start();
     bool prevStatus = pin;
     unsigned int occurrences = 0;
-    while(t.read_ms() < timeoutMs)
+
+    while (t.read_ms() < timeoutMs)
     {
-        if(pin != prevStatus)
+        if (pin != prevStatus)
         {
             prevStatus = pin;
             occurrences++;
         }
     }
+
     return occurrences == expectedOccurrences;
 }
 
@@ -42,16 +46,19 @@ bool assertCan(CAN& can, unsigned int expectedId, const int* expectedData, const
     Timer t;
     CANMessage msg;
     t.start();
-    while(t.read_ms() < timeoutMs)
+
+    while (t.read_ms() < timeoutMs)
     {
-        if(can.read(msg) && msg.id == expectedId)
+        if (can.read(msg) && msg.id == expectedId)
         {
-            if(expectedLen != msg.len)
+            if (expectedLen != msg.len)
             {
                 return false;
             }
+
             return std::memcmp(msg.data, expectedData, msg.len);
         }
     }
+
     return false;
 }

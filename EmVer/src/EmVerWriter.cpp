@@ -3,7 +3,7 @@
 #include "EmVerWriter.hpp"
 
 EmVerWriter::EmVerWriter()
-: pc_(new Serial(USBTX, USBRX))
+    : pc_(new Serial(USBTX, USBRX))
 {
     LocalFileSystem local("local");
     fp_ = fopen("/local/TestResult.txt", "w");

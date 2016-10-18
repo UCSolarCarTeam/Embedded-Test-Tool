@@ -20,7 +20,8 @@
 extern "C" {
 #endif
 
-typedef enum {
+typedef enum
+{
     Port0 = 0,
     Port1 = 1,
     Port2 = 2,

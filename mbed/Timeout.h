@@ -18,41 +18,43 @@
 
 #include "Ticker.h"
 
-namespace mbed {
+namespace mbed
+{
 
-/** A Timeout is used to call a function at a point in the future
- *
- * You can use as many seperate Timeout objects as you require.
- *
- * Example:
- * @code
- * // Blink until timeout.
- *
- * #include "mbed.h"
- *
- * Timeout timeout;
- * DigitalOut led(LED1);
- *
- * int on = 1;
- *
- * void attimeout() {
- *     on = 0;
- * }
- *
- * int main() {
- *     timeout.attach(&attimeout, 5);
- *     while(on) {
- *         led = !led;
- *         wait(0.2);
- *     }
- * }
- * @endcode
- */
-class Timeout : public Ticker {
+    /** A Timeout is used to call a function at a point in the future
+     *
+     * You can use as many seperate Timeout objects as you require.
+     *
+     * Example:
+     * @code
+     * // Blink until timeout.
+     *
+     * #include "mbed.h"
+     *
+     * Timeout timeout;
+     * DigitalOut led(LED1);
+     *
+     * int on = 1;
+     *
+     * void attimeout() {
+     *     on = 0;
+     * }
+     *
+     * int main() {
+     *     timeout.attach(&attimeout, 5);
+     *     while(on) {
+     *         led = !led;
+     *         wait(0.2);
+     *     }
+     * }
+     * @endcode
+     */
+    class Timeout : public Ticker
+    {
 
-protected:
-    virtual void handler();
-};
+    protected:
+        virtual void handler();
+    };
 
 } // namespace mbed
 

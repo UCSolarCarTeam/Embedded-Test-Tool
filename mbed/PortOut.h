@@ -22,80 +22,88 @@
 
 #include "port_api.h"
 
-namespace mbed {
-/** A multiple pin digital out
- *
- * Example:
- * @code
- * // Toggle all four LEDs
- *
- * #include "mbed.h"
- *
- * // LED1 = P1.18  LED2 = P1.20  LED3 = P1.21  LED4 = P1.23
- * #define LED_MASK 0x00B40000
- *
- * PortOut ledport(Port1, LED_MASK);
- *
- * int main() {
- *     while(1) {
- *         ledport = LED_MASK;
- *         wait(1);
- *         ledport = 0;
- *         wait(1);
- *     }
- * }
- * @endcode
- */
-class PortOut {
-public:
-
-    /** Create an PortOut, connected to the specified port
+namespace mbed
+{
+    /** A multiple pin digital out
      *
-     *  @param port Port to connect to (Port0-Port5)
-     *  @param mask A bitmask to identify which bits in the port should be included (0 - ignore)
-     */
-    PortOut(PortName port, int mask = 0xFFFFFFFF) {
-        port_init(&_port, port, mask, PIN_OUTPUT);
-    }
-
-    /** Write the value to the output port
+     * Example:
+     * @code
+     * // Toggle all four LEDs
      *
-     *  @param value An integer specifying a bit to write for every corresponding PortOut pin
-     */
-    void write(int value) {
-        port_write(&_port, value);
-    }
-
-    /** Read the value currently output on the port
+     * #include "mbed.h"
      *
-     *  @returns
-     *    An integer with each bit corresponding to associated PortOut pin setting
+     * // LED1 = P1.18  LED2 = P1.20  LED3 = P1.21  LED4 = P1.23
+     * #define LED_MASK 0x00B40000
+     *
+     * PortOut ledport(Port1, LED_MASK);
+     *
+     * int main() {
+     *     while(1) {
+     *         ledport = LED_MASK;
+     *         wait(1);
+     *         ledport = 0;
+     *         wait(1);
+     *     }
+     * }
+     * @endcode
      */
-    int read() {
-        return port_read(&_port);
-    }
+    class PortOut
+    {
+    public:
 
-    /** A shorthand for write()
-     */
-    PortOut& operator= (int value) {
-        write(value);
-        return *this;
-    }
+        /** Create an PortOut, connected to the specified port
+         *
+         *  @param port Port to connect to (Port0-Port5)
+         *  @param mask A bitmask to identify which bits in the port should be included (0 - ignore)
+         */
+        PortOut(PortName port, int mask = 0xFFFFFFFF)
+        {
+            port_init(&_port, port, mask, PIN_OUTPUT);
+        }
 
-    PortOut& operator= (PortOut& rhs) {
-        write(rhs.read());
-        return *this;
-    }
+        /** Write the value to the output port
+         *
+         *  @param value An integer specifying a bit to write for every corresponding PortOut pin
+         */
+        void write(int value)
+        {
+            port_write(&_port, value);
+        }
 
-    /** A shorthand for read()
-     */
-    operator int() {
-        return read();
-    }
+        /** Read the value currently output on the port
+         *
+         *  @returns
+         *    An integer with each bit corresponding to associated PortOut pin setting
+         */
+        int read()
+        {
+            return port_read(&_port);
+        }
 
-private:
-    port_t _port;
-};
+        /** A shorthand for write()
+         */
+        PortOut& operator= (int value)
+        {
+            write(value);
+            return *this;
+        }
+
+        PortOut& operator= (PortOut& rhs)
+        {
+            write(rhs.read());
+            return *this;
+        }
+
+        /** A shorthand for read()
+         */
+        operator int()
+        {
+            return read();
+        }
+
+    private:
+        port_t _port;
+    };
 
 } // namespace mbed
 
